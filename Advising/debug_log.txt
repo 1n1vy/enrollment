@@ -1,1 +1,0 @@
-Received student_number: S12345
