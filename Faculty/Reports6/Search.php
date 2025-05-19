@@ -1,0 +1,355 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start();
+require '../../includes/auth.php';
+redirectIfNotLoggedIn();
+
+// Optionally, restrict access by role
+checkRole(['Admin', 'Faculty']);
+
+if (file_exists('../../includes/db_connection.php')) {
+    require_once '../../includes/db_connection.php';
+} else {
+    die('Database connection file not found!');
+}
+// Check if the user is logged in
+if (!isset($_SESSION['username'])) {
+    // Redirect to the login page
+    header("Location: http://localhost/capst/index.php");
+    exit();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Load Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Load Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav id="navbar-placeholder">
+        <p>Loading navbar...</p>
+    </nav>
+    <div class="main-content" id="mainContent">
+        <nav aria-label="breadcrumb" class="breadcrumb-nav">
+            <ul class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Enrollment</a></li>
+                <li><a href="#">Faculty</a></li>
+                <li class="active">Reports | Search Faculty Availabilty</li>
+            </ul>
+        </nav>
+        <section class="section-header text-sm md:text-xl">
+            <h1>FACULTY PAGE - REPORTS SEARCH PAGE</h1>
+        </section>
+
+        <!-- Form container -->
+        <div class="form-container">
+            <form action="#">
+                <div class="form-group">
+                    <label for="school-year">School Year*</label>
+                    <input type="text" id="school-year-start" placeholder="2023">
+                    <span>to</span>
+                    <input type="text" id="school-year-end" placeholder="2024">
+                    <select id="semester">
+                        <option value="2nd-sem">2nd Sem</option>
+                        <!-- Other options can go here -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="faculty-status">Faculty Status*</label>
+                    <select id="faculty-status">
+                        <option value="all">All</option>
+                        <!-- Other options can go here -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="range">Range*</label>
+                    <input type="text" id="range-start" placeholder="M-T-W-TH-F-SAT-S">
+                    <div class="time-range">
+                        <input type="text" id="time-from" placeholder="-- : --">
+                        <select id="time-from-period">
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
+                        <span>to</span>
+                        <input type="text" id="time-to" placeholder="-- : --">
+                        <select id="time-to-period">
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="college">College*</label>
+                    <select id="college">
+                        <option>Select a college</option>
+                        <!-- Other options can go here -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department*</label>
+                    <select id="department">
+                        <option>Select a Department</option>
+                        <!-- Other options can go here -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="employee-id">Employee ID*</label>
+                    <input type="text" id="employee-id">
+                </div>
+
+                <!-- Proceed Button -->
+                <div class="flex justify-end">
+                    <a href="#" type="submit" style="background-color: #174069;"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                        Proceed
+                    </a>
+                </div>
+            </form>
+        </div>
+        <div class="border-b-4 border-black my-4"></div>
+
+        <script>
+            // Load navbar dynamically
+            (function loadNavbar() {
+                fetch('../../Components/Navbar.php')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Navbar.html does not exist or is inaccessible');
+                        }
+                        return response.text();
+                    })
+                    .then(html => {
+                        document.getElementById('navbar-placeholder').innerHTML = html;
+                        // Dynamically load app.js if not already loaded
+                        if (!document.querySelector('script[src="../../Components/app.js"]')) {
+                            const script = document.createElement('script');
+                            script.src = '../../Components/app.js';
+                            script.defer = true;
+                            document.body.appendChild(script);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading navbar:', error);
+                        document.getElementById('navbar-placeholder').innerHTML =
+                            '<p style="color: red; text-align: center;">Navbar could not be loaded.</p>';
+                    });
+            })();
+        </script>
+    </div>
+</body>
+
+</html>
+
+<!-- CSS styling -->
+<style scoped>
+    /* Breadcrumb styles */
+    .breadcrumb-nav {
+        margin: 0;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+
+    .breadcrumb {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+    }
+
+    .breadcrumb li {
+        margin-right: 10px;
+    }
+
+    .breadcrumb li a {
+        color: #174069;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .breadcrumb li a:hover {
+        color: #20568B;
+    }
+
+    .breadcrumb li.active {
+        color: orange;
+        pointer-events: none;
+    }
+
+    .breadcrumb li::after {
+        content: ">";
+        margin-left: 10px;
+        color: #174069;
+    }
+
+    .breadcrumb li:last-child::after {
+        content: "";
+    }
+
+    /* Section Header */
+    .section-header {
+        background-color: #174069;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .section-header h1 {
+        color: white;
+        margin: 0;
+    }
+
+    /* Form styles */
+    .form-container {
+        width: 80%;
+        margin: 40px auto;
+        background-color: #f4f8fc;
+        padding: 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    /* Button styles */
+    .form-actions button {
+        padding: 12px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #e0e7f1;
+        /* Light background */
+        padding: 20px;
+    }
+
+    .operation-label {
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* Basic reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f4f8;
+        color: #333;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        color: black;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-top: 5px;
+        transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+        border-color: #0056b3;
+        outline: none;
+    }
+
+    .time-range {
+        display: flex;
+        gap: 10px;
+        margin-top: 5px;
+    }
+
+    .time-range input[type="text"],
+    .time-range select {
+        flex: 1;
+    }
+
+    .proceed-btn {
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .proceed-btn:hover {
+        background-color: #003d82;
+    }
+
+    span {
+        margin: 0 10px;
+        color: #333;
+        font-size: 14px;
+        align-self: center;
+    }
+</style>
