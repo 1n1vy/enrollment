@@ -29,6 +29,14 @@ $yearstart = $_POST['yearstart'] ?? '';
 $yearend = $_POST['yearend'] ?? '';
 $term = $_POST['term'] ?? '';
 
+if($term == "1st") {
+    $term = "1";
+} else if($term == "2nd") {
+    $term = "2";
+} else if($term == "Summer") {
+    $term = "Summer";
+}
+
 $deptQuery = "SELECT department_name FROM departments WHERE id = ?";
 $stmt = $conn->prepare($deptQuery);
 $stmt->bind_param("i", $department);
@@ -43,24 +51,15 @@ $stmt->execute();
 $courseResult = $stmt->get_result();
 $courseName = $courseResult->fetch_assoc()['course_name'] ?? '';
 
-$sql = "
-    SELECT 
-        s.student_number, 
-        s.last_name, 
-        s.first_name, 
-        s.middle_name, 
-        s.suffix, 
-        p.section, 
-        sub.subject_name
-    FROM students s
-    LEFT JOIN student_course sc ON sc.student_id = s.id
-    LEFT JOIN programs p ON p.program_id = sc.program_id
-    LEFT JOIN subjects sub ON p.subject_id = sub.id
-    WHERE s.enrollment_status = ? AND s.departments_id = ? AND s.course_id = ?
-";
+
+$sql = "SELECT s.*, p.section, sub.subject_name, sc.* FROM student_course sc
+        JOIN students s ON sc.student_id = s.id
+        JOIN programs p ON sc.program_id = p.program_id
+        LEFT JOIN subjects sub ON p.subject_id = sub.id
+        WHERE s.enrollment_status = ? AND s.departments_id = ? AND s.course_id = ? AND sc.term = ?";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sii", $studentStatus, $department, $course);
+$stmt->bind_param("siis", $studentStatus, $department, $course, $term);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -169,7 +168,7 @@ while ($row = $result->fetch_assoc()) {
                                 <th class="p-2 border">Middle Name</th>
                                 <th class="p-2 border">Suffix</th>
                                 <th class="p-2 border">Subject</th>
-                                <th class="p-2 border">Section</th>
+                                <th class="p-2 border">Sections</th>
                             </tr>
                         </thead>
                         <tbody id="student-table-body">
@@ -187,7 +186,7 @@ while ($row = $result->fetch_assoc()) {
                                         echo "</tr>";
                                     }
                                 } else {
-                                    echo "<tr><td colspan='5' class='text-center p-2'>No students found.</td></tr>";
+                                    echo "<tr><td colspan='7' class='text-center p-2'>No students found.</td></tr>";
                                 }
                             ?>
                         </tbody>

@@ -62,6 +62,7 @@ session_start();
                 </a>
                 <ul class="submenu">
                     <li><a href="http://localhost/capst/RoomMonitoring/RoomDirectory/main.php">Room Directory and Creator</a></li>
+                    <!--<li><a href="http://localhost/capst/RoomMonitoring/RoomListingAndReserve/MainList.php">Room Listing and Reservation</a></li>-->
                     <!-- <li><a href="http://localhost/capst/RoomMonitoring/RoomScheduleManager/search.php">Room Schedule Manager</a></li> -->
                 </ul>
             </li>
@@ -123,7 +124,38 @@ session_start();
                 </ul>
             </li>
 
-            <!-- 6. Reports -->
+            <!-- 6. Change of Subjects -->
+            <!-- <li>
+                <a href="#" class="dropdown-toggle" title="Reports">
+                    <i class="bx bx-refresh"></i><span>Change of Subjects</span>
+                    <i class="bx bx-chevron-right dropdown-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="http://localhost/capst/AddDrop/Add.php">Add</a></li>
+                    <li><a href="http://localhost/capst/AddDrop/Drop.php">Drop/Withdraw</a></li>
+                    <li><a href="http://localhost/capst/AddDrop/ChangeSchedule.php">Change Schedule</a></li>
+                    <li><a href="http://localhost/capst/AddDrop/MainPage.php">Move Students</a></li>
+                    <li><a href="http://localhost/capst/AddDrop/Units.php">Re-Assign units enrolled (or) Lec/Lab enrollment</a></li>
+                    <li><a href="http://localhost/capst/AddDrop/Print.php">Print New Student Load</a></li>
+                </ul>
+            </li>-->
+
+            <!-- 7. Override Parameters -->
+            <!-- <li>
+                <a href="#" class="dropdown-toggle" title="Override Parameters">
+                    <i class="bx bx-slider-alt"></i><span>Override Parameters</span>
+                    <i class="bx bx-chevron-right dropdown-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="http://localhost/capst/Override/AllowAddDrop/AddDrop.php">Student Load</a></li>
+                    <li><a href="http://localhost/capst/Override/GradeSheetEncoding/SetParameters.php">Grade Sheet Encoding</a></li>
+                    <li><a href="http://localhost/capst/Override/AllowPre-RequisiteSubject/prereq.php">Allow Pre-Requisite Subject Exemption</a></li>
+                    <li><a href="http://localhost/capst/Override/AllowAddDrop/AddDrop.php">Allow Add/Drop</a></li>
+                    <li><a href="http://localhost/capst/Override/HoldAndUnhold/holdUnhold.php">Hold/Unhold Student</a></li>
+                </ul>
+            </li>-->
+
+            <!-- 8. Reports -->
             <li>
                 <a href="#" class="dropdown-toggle" title="Reports">
                     <i class="bx bx-file-blank"></i><span>Reports</span>
@@ -132,9 +164,9 @@ session_start();
                 <ul class="submenu">
                     <li><a href="http://localhost/capst/Reports/1StudentStatusMasterlist/student_stats_masterlist.php">Student Status Masterlist</a></li>
                     <li><a href="http://localhost/capst/Reports/2ClassMasterlist/class_masterlist.php">Class Masterlist</a></li>
-                    <li><a href="http://localhost/capst/Reports/3StudentSearch/student_search.php">Student Search</a></li>
-                    <li><a href="http://localhost/capst/Reports/4EnrollmentAdd-DroppedSummary/dropped_summary.php">Enrollment Add/Dropped/Advised Summary</a></li>
-                    <li><a href="http://localhost/capst/Reports/5Previous School/studFr_PrevSchool.php">Summary of Students from Previous School </a></li>
+                    <!--<li><a href="http://localhost/capst/Reports/3StudentSearch/student_search.php">Student Search</a></li>-->
+                    <!--<li><a href="http://localhost/capst/Reports/4EnrollmentAdd-DroppedSummary/dropped_summary.php">Enrollment Add/Dropped/Advised Summary</a></li>-->
+                    <!--<li><a href="http://localhost/capst/Reports/5Previous School/studFr_PrevSchool.php">Summary of Students from Previous School </a></li>-->
                 </ul>
             </li>
 
@@ -146,9 +178,9 @@ session_start();
                 </a>
                 <ul class="submenu">
                     <li><a href="http://localhost/capst/Statistics/EnrolleesandEnrollmentComparison/Main1.php">Enrollees and Enrollment Comparison</a></li>
-                    <li><a href="http://localhost/capst/Statistics/Subjects/main2.php">Courses</a></li>
-                    <li><a href="http://localhost/capst/Statistics/SubjectSchedule/Main3.php">Courses Schedule</a></li>
-                    <li><a href="http://localhost/capst/Statistics/Rooms/Main4.php">Rooms</a></li>
+                    <!--<li><a href="http://localhost/capst/Statistics/Subjects/main2.php">Courses</a></li>-->
+                    <!--<li><a href="http://localhost/capst/Statistics/SubjectSchedule/Main3.php">Courses Schedule</a></li>-->
+                    <!--<li><a href="http://localhost/capst/Statistics/Rooms/Main4.php">Rooms</a></li>-->
                     <li><a href="http://localhost/capst/Statistics/Religion/main5.php">Religion</a></li>
                 </ul>
             </li>

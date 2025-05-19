@@ -22,6 +22,12 @@ checkRole(['Admin', 'Faculty', 'Registrar']);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Load Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body>
@@ -42,107 +48,84 @@ checkRole(['Admin', 'Faculty', 'Registrar']);
         <!-- Form container -->
         <div class="form-container">
             <form action="#">
-                <!--- SY & Term -->
-                <div class="form-group">
-                    <label for="schoolyear">School Year & Term</label>
-                    <div class="form-row">
-                        <input type="text" id="offering-sy" placeholder="Enter">
-                        <span>to</span>
-                        <input type="text" id="offering-sy-end" placeholder="Enter">
-                        <select id="semester" class="ml-2 p-1 border rounded w-20">
-                            <option value="1st">1st sem</option>
-                            <option value="2nd">2nd sem</option>
-                            <option value="3nd">Summer</option>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="classprogramsy1">Academic Year<b class="text-danger">*</b></label>
+                        <div class="d-flex align-items-center">
+                            <input type="number" id="progAcadstart" class="form-control me-2" placeholder="Enter" required>
+                            <span class="mx-2">-</span>
+                            <input type="number" id="progAcadend" class="form-control" placeholder="Enter" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="progDept">Department <b class="text-danger">*</b></label>
+                        <select id="progDept" class="form-control" required>
+                            <option value="" disabled selected>Select a Department</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="progCourses">Program</label>
+                        <select id="progCourses" class="form-control">
+                            <option value="" disabled selected>Select Program</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Year</label>
+                        <select id="year" class="form-control" required>
+                            <option value="" disabled selected>Select</option>
+                            <option value="1">1st</option>
+                            <option value="2">2nd</option>
+                            <option value="3">3rd</option>
+                            <option value="4">4th</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="progCurr">Term</label>
+                        <select id="progCurr" class="form-control" required>
+                            <option value="" disabled selected>Select</option>
+                            <option value="1st">1st Semester</option>
+                            <option value="2nd">2nd Semester</option>
+                            <option value="Summer">Summer</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="course">Course</label>
-                    <select id="course">
-                        <option value="" disabled selected>Select course</option>
-                        <option value="1">BS Computer Science (Bachelor of Science in Computer Science)</option>
-                        <option value="2">BSIS (Bachelor of Science in Information Systems)</option>
-                        <option value="3">BSIT (Bachelor of Science in Information Technology)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="year">Year</label>
-                    <select id="year">
-                        <option value="" disabled selected>Select</option>
-                        <option value="A">1st</option>
-                        <option value="B">2nd</option>
-                        <option value="C">3rd</option>
-                        <option value="D">4th</option>
-                        <option value="E">5th</option>
-                        <option value="F">6th</option>
-                        <option value="G">7th</option>
-                        <option value="H">8th</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="major">Major</label>
-                    <select id="major" required>
-                        <option value="" disabled selected>Select</option>
-                        <option value="A">1st Major</option>
-                        <option value="B">2nd Major</option>
-                        <option value="C">3rd Major</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="select4">Current Year</label>
-                    <select id="select4" name="select1">
-                        <option value="" disabled selected>Select</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                    </select>
-                </div>
-                <div class="checkbox-container flex items-center">
-                    <input type="checkbox" id="mixedoffering">
-                    <label for="mixedoffering">Include Mixed Offering</label>
+
+                <div class="form-actions mt-8 flex justify-center">
+                    <button type="submit" class="px-6 py-2 bg-blue-900 text-white rounded-md">FILTER</button>
                 </div>
 
-                <!-- Proceed Button -->
-                <div class="form-actions">
-                    <button type="button" onclick="loadTable()">Proceed</button>
+                <hr class="thick-separator mt-6">
+                
+                <div class="d-flex justify-end">
+                    <a href="#" id="btnPrint2" title="Print" class="bg-blue-900 text-white rounded-md p-2">
+                        <i class="bi bi-printer mr-2 text-lg"></i> Print
+                    </a>
                 </div>
-                <div class="empty-row"></div>
-                <hr class="thick-separator">
-                <div class="overflow-x-auto">
+                <div id="form_table_programs" class="overflow-x-auto">
                     <section class="section-header text-sm mt-6">
-                        <h1>SUBJECT OFFERINGS 2ND SEMESTER SY 2023-2024</h1>
+                        <h5 class="headerbody text-light">CLASS PROGRAM PLOTTING</h5>
+                        <p class="text-light" id="depttb"><b>College of Computer Studies</b></p>
+                        <p class="text-light"><b id="coursetb">BSIT</b>(<i><b id="leveltb">4th Year</b></i>)</p>
+                        <p class="text-light">S.Y. <b id="sytb">2025-2026</b>, <b id="termtb"></b></p>
                     </section>
-                    <div class="form-row">
-                        <button class="bi bi-printer"> Print All</button>
-                        <span></span>
-                        <button class="bi bi-printer"> Print Selected</button>
-                    </div>
                     <table class="min-w-full border border-gray-300">
                         <thead style="background-color: #174069;" class="text-white">
                             <tr>
-                                <th class="py-2 px-4 border">COUNT</th>
-                                <th class="py-2 px-4 border">SECTION</th>
-                                <th class="py-2 px-4 border">SELECT <input type="checkbox"> ALL <input type="checkbox"> BLOCK</th>
-
+                                <th class="py-2 px-4 border">Time</th>
+                                <th class="py-2 px-4 border">Monday</th>
+                                <th class="py-2 px-4 border">Tuesday</th>
+                                <th class="py-2 px-4 border">Wednesday</th>
+                                <th class="py-2 px-4 border">Thursday</th>
+                                <th class="py-2 px-4 border">Friday</th>
+                                <th class="py-2 px-4 border">Saturday</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="text-gray-700 bg-white">
-                                <td class="py-2 px-4 border text-center">1.</td>
-                                <td class="py-2 px-4 border text-center">1BSIT-1</td>
-                                <td class="py-2 px-4 border text-center"><input type="checkbox"></td>
-                            </tr>
-                            <tr class="text-gray-700 bg-white">
-                                <td class="py-2 px-4 border text-center">2.</td>
-                                <td class="py-2 px-4 border text-center">1BSIT-2</td>
-                                <td class="py-2 px-4 border text-center"><input type="checkbox"></td>
-                            </tr>
-                            <tr class="text-gray-700 bg-white">
-                                <td class="py-2 px-4 border text-center">3.</td>
-                                <td class="py-2 px-4 border text-center">1BSIT-3</td>
-                                <td class="py-2 px-4 border text-center"><input type="checkbox"></td>
-                            </tr>
                         </tbody>
                     </table>
+                </div>
+
             </form>
         </div>
 
@@ -188,10 +171,334 @@ checkRole(['Admin', 'Faculty', 'Registrar']);
                     script.src = '../../Components/app.js';
                     document.body.appendChild(script);
                 });
+                
+
+                
+            document.getElementById('progAcadstart').addEventListener('input', function () {
+                const startYear = parseInt(this.value);
+                const currentYear = new Date().getFullYear();
+                const endYearInput = document.getElementById('progAcadend');
+
+                if (!isNaN(startYear)) {
+                    if (startYear > currentYear) {
+                        this.value = currentYear;
+                        endYearInput.value = currentYear + 1;
+                    } else {
+                        endYearInput.value = startYear + 1;
+                    }
+                } else {
+                    endYearInput.value = '';
+                }
+            });
+
+            function updateEndYear() {
+                const currYearSelect = document.getElementById('curryear');
+                const endYearInput = document.getElementById('curryear-end');
+                const selectedOption = currYearSelect.options[currYearSelect.selectedIndex];
+
+                if (selectedOption) {
+                    const startYear = parseInt(selectedOption.textContent);
+
+                    if (!isNaN(startYear)) {
+                        endYearInput.value = startYear + 1;
+                    } else {
+                        endYearInput.value = ""; 
+                    }
+                } else {
+                    endYearInput.value = ""; 
+                }
+            }
         </script>
 </body>
 
 </html>
+
+<script>
+
+$(document).ready(function () {
+
+    function fetchDepartments() {
+        $.ajax({
+            url: 'http://localhost/capst/ClassProgram/programAPI.php',
+            type: 'GET',
+            data: {
+                action: 'getDepartments'
+            },
+            success: function (response) {
+                console.log('Departments Response:', response);
+
+                var data = typeof response === 'string' ? JSON.parse(response) : response;
+
+                var progDept = $('#progDept');
+                progDept.empty();
+                progDept.append('<option value="" disabled selected>Select a Department</option>');
+
+                if (data.length > 0) {
+                    data.forEach(function (department) {
+                        progDept.append(
+                            `<option value="${department.id}">${department.department_name}</option>`
+                        );
+                    });
+                } else {
+                    progDept.append('<option value="">No Departments Available</option>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching departments:', xhr.responseText);
+                alert('Failed to load departments. Please try again.');
+            }
+        });
+    }
+
+    function fetchCourses(departmentId) {
+        $.ajax({
+            url: 'http://localhost/capst/ClassProgram/programAPI.php',
+            type: 'GET',
+            data: {
+                action: 'getCourses',
+                id: departmentId
+            },
+            success: function (response) {
+                console.log('Courses Response:', response);
+
+                var data = typeof response === 'string' ? JSON.parse(response) : response;
+
+                var progCourses = $('#progCourses');
+                progCourses.empty();
+                progCourses.append('<option value="" disabled selected>Select a Course</option>');
+
+                if (data.length > 0) {
+                    data.forEach(function (course) {
+                        progCourses.append(
+                            `<option value="${course.id}">${course.course_name}</option>`
+                        );
+                    });
+                } else {
+                    progCourses.append('<option value="">No Courses Available</option>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching courses:', xhr.responseText);
+                alert('Failed to load courses. Please try again.');
+            }
+        });
+    }
+
+    $('#progDept').on('change', function () {
+        var departmentId = $(this).val();
+        if (departmentId) {
+            fetchCourses(departmentId);
+        }
+    });
+
+    fetchDepartments();
+});
+
+$(document).ready(function () {
+    function updateClassProgramDetails() {
+        const department = $('#progDept option:selected').text();
+        const course = $('#progCourses option:selected').text();
+        const year = $('#year option:selected').text() || "All Level";
+        const term = $('#progCurr option:selected').text() || "All Terms";
+        const acadStart = $('#progAcadstart').val();
+        const acadEnd = $('#progAcadend').val();
+
+        $('#depttb').html(`<b>${department !== "" ? department : ""}</b>`);
+        $('#coursetb').html(`<b>${course !== "" ? course : ""}</b>`);
+        $('#leveltb').html(`<b>${year} Year</b>`);
+        $('#termtb').html(`<b>${term} Semester</b>`);
+        $('#sytb').html(`<b>${acadStart && acadEnd ? `${acadStart}-${acadEnd}` : ""}</b>`);
+    }
+
+    $('#progDept, #progCourses, #year, #progCurr, #progAcadstart, #progAcadend').on('change input', function () {
+        updateClassProgramDetails();
+    });
+
+    updateClassProgramDetails();
+});
+
+$(document).ready(function () {
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+
+        const acadStart = $('#progAcadstart').val();
+        const acadEnd = $('#progAcadend').val();
+        const department = $('#progDept').val();
+        const course = $('#progCourses').val();
+        const year = $('#year').val();
+        const term = $('#progCurr').val();
+
+        if (!acadStart || !acadEnd || !department || !course || !year || !term) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        $.ajax({
+            url: 'http://localhost/capst/ClassProgram/programAPI.php',
+            type: 'GET',
+            data: {
+                action: 'getClassSchedule',
+                acadStart: acadStart,
+                acadEnd: acadEnd,
+                department: department,
+                course: course,
+                year: year,
+                term: term
+            },
+            success: function (response) {
+                console.log('Schedule Response:', response);
+
+                const data = typeof response === 'string' ? JSON.parse(response) : response;
+
+                const tableBody = $('table tbody');
+                tableBody.empty();
+
+                const timeSlots = [
+                    '7:00 AM - 8:00 AM', '8:00 AM - 9:00 AM', '9:00 AM - 10:00 AM', '10:00 AM - 11:00 AM',
+                    '11:00 AM - 12:00 PM', '12:00 PM - 1:00 PM', '1:00 PM - 2:00 PM', '2:00 PM - 3:00 PM',
+                    '3:00 PM - 4:00 PM', '4:00 PM - 5:00 PM', '5:00 PM - 6:00 PM', '6:00 PM - 7:00 PM',
+                    '7:00 PM - 8:00 PM', '8:00 PM - 9:00 PM', '9:00 PM - 10:00 PM'
+                ];
+
+                const dayMapping = {
+                    M: 'Monday',
+                    T: 'Tuesday',
+                    W: 'Wednesday',
+                    TH: 'Thursday',
+                    F: 'Friday',
+                    SAT: 'Saturday',
+                };
+
+                timeSlots.forEach(time => {
+                    const row = $('<tr>');
+                    row.append(`<td class="py-2 px-4 border">${time}</td>`);
+
+                    ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].forEach(day => {
+                        const cell = $('<td class="py-2 px-4 border"></td>');
+
+                        // Find matching schedules for this time and day
+                        const schedules = data.filter(item => {
+                            const days = item.schedule_day.split(','); // Split "M,T,SAT" into ["M", "T", "SAT"]
+                            return days.some(d => dayMapping[d.trim()] === day) && isTimeInSlot(item.schedule_time, time);
+                        });
+
+                        if (schedules.length > 0) {
+                            // Append all matching schedules into the cell
+                            schedules.forEach(schedule => {
+                                cell.append(`${schedule.subject_code}<br>${schedule.section}<br>`);
+                            });
+                        }
+
+                        row.append(cell);
+                    });
+
+                    tableBody.append(row);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching schedule:', xhr.responseText);
+                alert('Failed to load schedule. Please try again.');
+            }
+        });
+    });
+
+    function isTimeInSlot(scheduleTime, slotTime) {
+        const [scheduleStart, scheduleEnd] = scheduleTime.split(' - ').map(t => t.trim());
+        const [slotStart, slotEnd] = slotTime.split(' - ').map(t => t.trim());
+
+        const scheduleStartTime = parseTime(scheduleStart);
+        const scheduleEndTime = parseTime(scheduleEnd);
+        const slotStartTime = parseTime(slotStart);
+        const slotEndTime = parseTime(slotEnd);
+
+        return (
+            (slotStartTime >= scheduleStartTime && slotStartTime < scheduleEndTime) ||
+            (slotEndTime > scheduleStartTime && slotEndTime <= scheduleEndTime) ||
+            (scheduleStartTime >= slotStartTime && scheduleEndTime <= slotEndTime)
+        );
+    }
+
+    function parseTime(timeStr) {
+        const [time, modifier] = timeStr.split(' ');
+        let [hours, minutes] = time.split(':').map(Number);
+
+        if (modifier === 'PM' && hours !== 12) {
+            hours += 12;
+        } else if (modifier === 'AM' && hours === 12) {
+            hours = 0;
+        }
+
+        return new Date(0, 0, 0, hours, minutes);
+    }
+});
+
+$(document).ready(function () {
+    $('#btnPrint2').on('click', function (e) {
+        e.preventDefault();
+
+        const content = document.getElementById('form_table_programs').innerHTML;
+
+        const printWindow = window.open('', '_blank', 'width=800,height=600');
+
+        printWindow.document.open();
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Print Class Program</title>
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 20px;
+                        }
+                        .section-header {
+                            text-align: center;
+                            margin-bottom: 20px;
+                        }
+                        .section-header h5 {
+                            font-size: 20px;
+                            font-weight: bold;
+                            margin-bottom: 10px;
+                        }
+                        .section-header p {
+                            margin: 0;
+                            font-size: 16px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                        }
+                        th, td {
+                            border: 1px solid #ccc;
+                            padding: 8px;
+                            text-align: left;
+                        }
+                        th {
+                            background-color: #174069;
+                            color: white;
+                        }
+                        .text-light {
+                            color: #555 !important;
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${content}
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+
+        printWindow.print();
+
+        printWindow.onafterprint = function () {
+            printWindow.close();
+        };
+    });
+});
+
+</script>
 
 <!-- CSS styling -->
 <style scoped>

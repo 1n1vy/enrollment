@@ -108,7 +108,6 @@ if (!isset($_SESSION['username'])) {
                         <option value="" disabled selected>Select Semester Term</option>
                         <option value="1st">1st Semester</option>
                         <option value="2nd">2nd Semester</option>
-                        <option value="3rd">3rd Semester</option>
                         <option value="Summer">Summer</option>
                     </select>
                 </div>
@@ -296,57 +295,22 @@ $.ajax({
 
 $('#progCourses').on('change', function () {
 
-    console.log($('#progCourses').val());
+    console.log('Course ID wew:', $('#progCourses').val());
+    console.log('Department ID wew:', $('#progDept').val());
     
     $.ajax({ 
         url: 'programAPI.php',
         type: 'GET',
         data: {
-            action: 'getCurriculum',
+            action: 'getSections2',
             course_id: $('#progCourses').val(),
+            department_id: $('#progDept').val(),
         },
         success: function (response) {
 
-            console.log('Response:', response);
-            console.log('Type:', typeof response);
-
-            var data = typeof response === 'string' ? JSON.parse(response) : response;
-
-            var collegeSelect = $('#progCurr');
-            collegeSelect.empty();
-            collegeSelect.append('<option value="">Select Curriculum</option>');
-
-            if (data.length > 0) {
-                data.forEach(function (course) {
-                    collegeSelect.append(
-                        `<option value="${course.id}">${course.curriculum_year_start} - ${course.curriculum_year_end}</option>`
-                    );
-                });
-            } else {
-                collegeSelect.append('<option value="">No Curriculum Available</option>');
-            }
-        },
-        error: function (xhr, status, error) {
-            console.log('Error Status:', status);
-            console.log('XHR Response:', xhr.responseText);
-            console.log('Error:', error);
-            alert('Error loading departments. Check console for details.');
-        }
-    });
-
-    $.ajax({ 
-        url: 'programAPI.php',
-        type: 'GET',
-        data: {
-            action: 'getSections',
-            course_id: $('#progCourses').val(),
-        },
-        success: function (response) {
-
-            console.log('Response:', response);
-            console.log('Type:', typeof response);
-
-            var data = typeof response === 'string' ? JSON.parse(response) : response;
+            console.log('Raw Response:', response); // Log the raw response
+    var data = typeof response === 'string' ? JSON.parse(response) : response;
+    console.log('Parsed Data:', data); // Log the parsed data
 
             var collegeSelect = $('#progSection');
             collegeSelect.empty();
@@ -355,7 +319,7 @@ $('#progCourses').on('change', function () {
             if (data.length > 0) {
                 data.forEach(function (course) {
                     collegeSelect.append(
-                        `<option data-sy="${course.academic_year}" data-level="${course.year_level}" data-semester="${course.semester}" value="${course.section_id}">${course.section_name}</option>`
+                        `<option value="${course.program_id}">${course.section}</option>`
                     );
                 });
             } else {
@@ -369,6 +333,42 @@ $('#progCourses').on('change', function () {
             alert('Error loading departments. Check console for details.');
         }
     });
+
+    // $.ajax({ 
+    //     url: 'programAPI.php',
+    //     type: 'GET',
+    //     data: {
+    //         action: 'getSections',
+    //         course_id: $('#progCourses').val(),
+    //     },
+    //     success: function (response) {
+
+    //         console.log('Response:', response);
+    //         console.log('Type:', typeof response);
+
+    //         var data = typeof response === 'string' ? JSON.parse(response) : response;
+
+    //         var collegeSelect = $('#progSection');
+    //         collegeSelect.empty();
+    //         collegeSelect.append('<option value="">Select Section</option>');
+
+    //         if (data.length > 0) {
+    //             data.forEach(function (course) {
+    //                 collegeSelect.append(
+    //                     `<option data-sy="${course.academic_year}" data-level="${course.year_level}" data-semester="${course.semester}" value="${course.section_id}">${course.section_name}</option>`
+    //                 );
+    //             });
+    //         } else {
+    //             collegeSelect.append('<option value="">No Section Available</option>');
+    //         }
+    //     },
+    //     error: function (xhr, status, error) {
+    //         console.log('Error Status:', status);
+    //         console.log('XHR Response:', xhr.responseText);
+    //         console.log('Error:', error);
+    //         alert('Error loading departments. Check console for details.');
+    //     }
+    // });
 
 });
 

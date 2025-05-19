@@ -22,6 +22,13 @@ checkRole(['Admin', 'Faculty', 'Registrar']);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Load Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 </head>
 
 <body>
@@ -47,134 +54,87 @@ checkRole(['Admin', 'Faculty', 'Registrar']);
                     <div>
                         <div class="flex">
                             <div class="form-group" style="flex-grow: 1;">
-                                <label for="classprogramsy1">Class Program for SY</label>
-                                <input type="text" id="classprogramsy1" placeholder="Enter" required>
+                                <label for="classprogramsy1">Academic Year <b class="text-danger">*</b></label>
+                                <input type="number" id="progAcadstart" placeholder="Enter" required>
                             </div>
                             <div class="label label-input" style="flex-grow: 0.2;">
                                 <span>-</span>
-                                <input type="text" id="classprogramsy2" placeholder="Enter" required>
+                                <input type="number" id="progAcadend" placeholder="Enter" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="courseProg">Course Program (Optional)</label>
-                            <select id="courseProg">
-                                <option value="" disabled selected>Select a Program</option>
-                                <option value="A">Baccalaureate</option>
-                                <option value="B">Doctoral</option>
-                                <option value="C">Expanded Tertiary Education Equivalency & Accreditation Program</option>
-                                <option value="D">Masteral</option>
-                                <option value="E">Open/Online University</option>
-                                <option value="F">Post Baccalaureate</option>
-                                <option value="G">Pre-Baccalaureate</option>
-                                <option value="H">Technical Education and Skills Development Center</option>
+                            <label for="progDept">Department <b class="text-danger">*</b></label>
+                            <select id="progDept" required>
+                                <option value="" disabled selected>Select a Department</option>
                             </select>
-                        </div>
-
-                        <div class="flex">
-                            <div class="form-group" style="flex-grow: 1;">
-                                <label for="currYear">Curriculum Year</label>
-                                <select id="currYear" onchange="updateEndYear()" required>
-                                    <option value="" disabled selected>Select</option>
-                                    <option value="A">2015</option>
-                                    <option value="B">2019</option>
-                                    <option value="C">2020</option>
-                                </select>
-                            </div>
-                            <div class="form-group" style="flex-grow: 0.2;">
-                                <label for="curryear-end">Curr Year End</label>
-                                <input type="text" id="curryear-end" readonly />
-                            </div>
                         </div>
                         <div class="form-group" style="flex-grow: 0.2;">
-                            <label for="major">Major</label>
-                            <select id="major" required>
-                                <option value="" disabled selected>Select</option>
-                                <option value="A">1st Major</option>
-                                <option value="B">2nd Major</option>
-                                <option value="C">3rd Major</option>
-                            </select>
+                            
+                            <div class="form-group" style="flex-grow: 1;">
+                                <label for="year">Year</label>
+                                <select id="year" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="1">1st</option>
+                                    <option value="2">2nd</option>
+                                    <option value="3">3rd</option>
+                                    <option value="4">4th</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <!-- Right column inputs -->
                     <div>
                         <div class="form-group" style="flex-grow: 0.4;">
-                            <label for="semester">Semester</label>
-                            <select id="semester" required>
+                            <label for="progCurr">Term</label>
+                            <select id="progCurr" required>
                                 <option value="" disabled selected>Select</option>
-                                <option value="1">1st Semester</option>
-                                <option value="2">2nd Semester</option>
+                                <option value="1st">1st Semester</option>
+                                <option value="2nd">2nd Semester</option>
+                                <option value="Summer">Summer</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="course">Course</label>
-                            <select id="course">
-                                <option value="" disabled selected>Select course</option>
-                                <option value="1">BS Computer Science (Bachelor of Science in Computer Science)</option>
-                                <option value="2">BSIS (Bachelor of Science in Information Systems)</option>
-                                <option value="3">BSIT (Bachelor of Science in Information Technology)</option>
+                            <label for="progCourses">Program</label>
+                            <select id="progCourses">
+                                <option value="" disabled selected>Select Course</option>
                             </select>
-                        </div>
-
-                        <div class="flex">
-                            <div class="form-group" style="flex-grow: 1;">
-                                <label for="year">Year</label>
-                                <select id="year" required>
-                                    <option value="" disabled selected>Select</option>
-                                    <option value="A">1st</option>
-                                    <option value="B">2nd</option>
-                                    <option value="C">3rd</option>
-                                    <option value="D">4th</option>
-                                    <option value="E">5th</option>
-                                    <option value="F">6th</option>
-                                    <option value="G">7th</option>
-                                    <option value="H">8th</option>
-                                </select>
-                            </div>
-                            <div class="form-group" style="flex-grow: 0.2;">
-                                <label for="term">Term</label>
-                                <select id="term" required>
-                                    <option value="" disabled selected>Select</option>
-                                    <option value="A">1st</option>
-                                    <option value="B">2nd</option>
-                                    <option value="C">3rd</option>
-                                    <option value="D">Summer</option>
-                                </select>
-                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- ADD Button -->
                 <div class="form-actions mt-8 flex justify-center">
-                    <button type="submit" class="px-6 py-2 bg-blue-900 text-white rounded-md">ADD</button>
+                    <button type="submit" class="px-6 py-2 bg-blue-900 text-white rounded-md">FILTER</button>
                 </div>
 
                 <!-- Table below the ADD Button -->
                 <hr class="thick-separator mt-6">
-                <div class="overflow-x-auto">
+                
+                <div class="d-flex justify-end">
+                    <a href="#" id="btnPrint2" title="Print" class="bg-blue-900 text-white rounded-md p-2">
+                        <i class="bi bi-printer mr-2 text-lg"></i> Print
+                    </a>
+                </div>
+                <div id="form_table_programs" class="overflow-x-auto">
                     <section class="section-header text-sm mt-6">
-                        <h1>SUBJECT LIST ALLOWED TO ADD</h1>
+                        <h5 class="headerbody text-light">CLASS PROGRAM LIST</h5>
+                        <p class="text-light" id="depttb"><b>College of Computer Studies</b></p>
+                        <p class="text-light"><b id="coursetb">BSIT</b>(<i><b id="leveltb">4th Year</b></i>)</p>
+                        <p class="text-light">S.Y. <b id="sytb">2025-2026</b>, <b id="termtb"></b></p>
                     </section>
                     <table class="min-w-full border border-gray-300">
                         <thead style="background-color: #174069;" class="text-white">
                             <tr>
-                                <th class="py-2 px-4 border">YEAR</th>
-                                <th class="py-2 px-4 border">TERM</th>
+                                <th class="py-2 px-4 border">Subject Code</th>
+                                <th class="py-2 px-4 border">Subject</th>
+                                <th class="py-2 px-4 border">Section</th>
+                                <th class="py-2 px-4 border">Component</th>
+                                <th class="py-2 px-4 border">Day</th>
+                                <th class="py-2 px-4 border">Time</th>
+                                <th class="py-2 px-4 border">Room</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="text-gray-700 bg-white">
-                                <td class="py-2 px-4 border text-center">1BSIT-1</td>
-                                <td class="py-2 px-4 border text-center"><a href="#">Print Class Program</a></td>
-                            </tr>
-                            <tr class="text-gray-700 bg-white">
-                                <td class="py-2 px-4 border text-center">1BSIT-2</td>
-                                <td class="py-2 px-4 border text-center"><a href="#">Print Class Program</a></td>
-                            </tr>
-                            <tr class="text-gray-700 bg-white">
-                                <td class="py-2 px-4 border text-center">1BSIT-1</td>
-                                <td class="py-2 px-4 border text-center"><a href="#">Print Class Program</a></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -189,34 +149,285 @@ checkRole(['Admin', 'Faculty', 'Registrar']);
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('navbar-placeholder').innerHTML = data;
-                    // Load navbar script after inserting HTML
                     var script = document.createElement('script');
                     script.src = '../../Components/app.js';
                     document.body.appendChild(script);
                 });
 
+                
+            document.getElementById('progAcadstart').addEventListener('input', function () {
+                const startYear = parseInt(this.value);
+                const currentYear = new Date().getFullYear();
+                const endYearInput = document.getElementById('progAcadend');
+
+                if (!isNaN(startYear)) {
+                    if (startYear > currentYear) {
+                        this.value = currentYear;
+                        endYearInput.value = currentYear + 1;
+                    } else {
+                        endYearInput.value = startYear + 1;
+                    }
+                } else {
+                    endYearInput.value = '';
+                }
+            });
+
             function updateEndYear() {
-                const currYearSelect = document.getElementById('currYear');
+                const currYearSelect = document.getElementById('curryear');
                 const endYearInput = document.getElementById('curryear-end');
                 const selectedOption = currYearSelect.options[currYearSelect.selectedIndex];
 
                 if (selectedOption) {
-                    // Extract the year from the text content
                     const startYear = parseInt(selectedOption.textContent);
 
                     if (!isNaN(startYear)) {
-                        endYearInput.value = startYear + 1; // Set end year as start year + 1
+                        endYearInput.value = startYear + 1;
                     } else {
-                        endYearInput.value = ""; // Clear if the year is not a number
+                        endYearInput.value = ""; 
                     }
                 } else {
-                    endYearInput.value = ""; // Clear if no selection
+                    endYearInput.value = ""; 
                 }
             }
         </script>
 </body>
 
 </html>
+
+<script>
+
+$(document).ready(function () {
+
+    function fetchDepartments() {
+        $.ajax({
+            url: 'http://localhost/capst/ClassProgram/programAPI.php',
+            type: 'GET',
+            data: {
+                action: 'getDepartments'
+            },
+            success: function (response) {
+                console.log('Departments Response:', response);
+
+                var data = typeof response === 'string' ? JSON.parse(response) : response;
+
+                var progDept = $('#progDept');
+                progDept.empty();
+                progDept.append('<option value="" disabled selected>Select a Department</option>');
+
+                if (data.length > 0) {
+                    data.forEach(function (department) {
+                        progDept.append(
+                            `<option value="${department.id}">${department.department_name}</option>`
+                        );
+                    });
+                } else {
+                    progDept.append('<option value="">No Departments Available</option>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching departments:', xhr.responseText);
+                alert('Failed to load departments. Please try again.');
+            }
+        });
+    }
+
+    function fetchCourses(departmentId) {
+        $.ajax({
+            url: 'http://localhost/capst/ClassProgram/programAPI.php',
+            type: 'GET',
+            data: {
+                action: 'getCourses',
+                id: departmentId
+            },
+            success: function (response) {
+                console.log('Courses Response:', response);
+
+                var data = typeof response === 'string' ? JSON.parse(response) : response;
+
+                var progCourses = $('#progCourses');
+                progCourses.empty();
+                progCourses.append('<option value="" disabled selected>Select a Course</option>');
+
+                if (data.length > 0) {
+                    data.forEach(function (course) {
+                        progCourses.append(
+                            `<option value="${course.id}">${course.course_name}</option>`
+                        );
+                    });
+                } else {
+                    progCourses.append('<option value="">No Courses Available</option>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching courses:', xhr.responseText);
+                alert('Failed to load courses. Please try again.');
+            }
+        });
+    }
+
+    $('#progDept').on('change', function () {
+        var departmentId = $(this).val();
+        if (departmentId) {
+            fetchCourses(departmentId);
+        }
+    });
+
+    fetchDepartments();
+});
+
+$(document).ready(function () {
+    function updateClassProgramDetails() {
+        const department = $('#progDept option:selected').text();
+        const course = $('#progCourses option:selected').text();
+        const year = $('#year option:selected').text() || "All Level";
+        const term = $('#progCurr option:selected').text() || "All Terms";
+        const acadStart = $('#progAcadstart').val();
+        const acadEnd = $('#progAcadend').val();
+
+        $('#depttb').html(`<b>${department !== "" ? department : ""}</b>`);
+        $('#coursetb').html(`<b>${course !== "" ? course : ""}</b>`);
+        $('#leveltb').html(`<b>${year} Year</b>`);
+        $('#termtb').html(`<b>${term} Semester</b>`);
+        $('#sytb').html(`<b>${acadStart && acadEnd ? `${acadStart}-${acadEnd}` : ""}</b>`);
+    }
+
+    $('#progDept, #progCourses, #year, #progCurr, #progAcadstart, #progAcadend').on('change input', function () {
+        updateClassProgramDetails();
+    });
+
+    updateClassProgramDetails();
+});
+
+$(document).ready(function () {
+
+    $('form').on('submit', function (e) {
+        e.preventDefault(); 
+
+        const acadStart = $('#progAcadstart').val();
+        const acadEnd = $('#progAcadend').val();
+        const department = $('#progDept').val();
+        const course = $('#progCourses').val();
+        const year = $('#year').val();
+        const term = $('#progCurr').val();
+
+        if (!acadStart || !acadEnd || !department || !course) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        $.ajax({
+            url: 'http://localhost/capst/ClassProgram/programAPI.php',
+            type: 'GET',
+            data: {
+                action: 'getClassPrograms',
+                acadStart: acadStart,
+                acadEnd: acadEnd,
+                department: department,
+                course: course,
+                year: year || 'All Level',
+                term: term || 'All Terms'
+            },
+            success: function (response) {
+                console.log('Class Programs Response:', response);
+
+                const data = typeof response === 'string' ? JSON.parse(response) : response;
+
+                const tableBody = $('table tbody');
+                tableBody.empty();
+
+                if (data.length > 0) {
+                    data.forEach(function (program) {
+                        tableBody.append(`
+                            <tr>
+                                <td class="py-2 px-4 border">${program.subject_code}</td>
+                                <td class="py-2 px-4 border">${program.subject_name}</td>
+                                <td class="py-2 px-4 border">${program.section}</td>
+                                <td class="py-2 px-4 border">${program.subject_component}</td>
+                                <td class="py-2 px-4 border">${program.schedule_day}</td>
+                                <td class="py-2 px-4 border">${program.schedule_time}</td>
+                                <td class="py-2 px-4 border">${program.room_number}</td>
+                            </tr>
+                        `);
+                    });
+                } else {
+                    tableBody.append('<tr><td colspan="7" class="text-center py-2">No class programs found.</td></tr>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching class programs:', xhr.responseText);
+                alert('Failed to load class programs. Please try again.');
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    $('#btnPrint2').on('click', function (e) {
+        e.preventDefault();
+
+        const content = document.getElementById('form_table_programs').innerHTML;
+
+        const printWindow = window.open('', '_blank', 'width=800,height=600');
+
+        printWindow.document.open();
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Print Class Program</title>
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 20px;
+                        }
+                        .section-header {
+                            text-align: center;
+                            margin-bottom: 20px;
+                        }
+                        .section-header h5 {
+                            font-size: 20px;
+                            font-weight: bold;
+                            margin-bottom: 10px;
+                        }
+                        .section-header p {
+                            margin: 0;
+                            font-size: 16px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                        }
+                        th, td {
+                            border: 1px solid #ccc;
+                            padding: 8px;
+                            text-align: left;
+                        }
+                        th {
+                            background-color: #174069;
+                            color: white;
+                        }
+                        .text-light {
+                            color: #555 !important;
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${content}
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+
+        printWindow.print();
+
+        printWindow.onafterprint = function () {
+            printWindow.close();
+        };
+    });
+});
+
+</script>
 
 <!-- CSS styling -->
 <style scoped>

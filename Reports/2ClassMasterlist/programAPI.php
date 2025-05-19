@@ -38,6 +38,9 @@ switch ($action) {
     case 'getSections':
         getSections($conn);
         break;
+    case 'getSections2':
+        getSections2($conn);
+        break;
     case 'getCurriculum':
         getCurriculum($conn);
         break;
@@ -150,6 +153,21 @@ function getFilteredPrograms($conn) {
 
     executeAndReturn($conn, $query, 'iii', [$department_id, $course_id, $subject_id]);
 
+}
+
+
+function getSections2($conn)
+{
+    $course_id = $_GET['course_id'] ?? 0;
+    $department_id = $_GET['department_id'] ?? 0;
+
+    // Debugging logs
+    error_log("Course ID: $course_id");
+    error_log("Department ID: $department_id");
+
+    $query = "SELECT * FROM programs WHERE course_id = ? AND department_id = ? ORDER BY section ASC";
+
+    executeAndReturn($conn, $query, 'ii', [$course_id, $department_id]);
 }
 
 

@@ -210,16 +210,15 @@ if (!isset($_SESSION['username'])) {
                 const selectedOption = currYearSelect.options[currYearSelect.selectedIndex];
 
                 if (selectedOption) {
-                    // Extract the year from the text content
                     const startYear = parseInt(selectedOption.textContent);
 
                     if (!isNaN(startYear)) {
-                        endYearInput.value = startYear + 1; // Set end year as start year + 1
+                        endYearInput.value = startYear + 1;
                     } else {
-                        endYearInput.value = ""; // Clear if the year is not a number
+                        endYearInput.value = "";
                     }
                 } else {
-                    endYearInput.value = ""; // Clear if no selection
+                    endYearInput.value = "";
                 }
             }
         </script>

@@ -62,124 +62,151 @@ if (!isset($_SESSION['username'])) {
             <h1>NEW CLASS PROGRAMS/SECTIONS</h1>
         </section>
 
-        <!-- Form container -->
-        <div class="form-container">
-            <form action="../programAPI.php" method="POST">
-                <div class="row g-4">
-                    <!-- Left column -->
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="progCurr" class="form-label">Curriculum Year *</label>
-                            <select id="progCurr" class="form-select" required>
-                            <option value="" disabled selected>Select Curriculum</option>
-                            </select>
-                        </div>
+       <!-- Form container -->
+<div class="form-container">
+    <form action="../programAPI.php" method="POST">
+        <!-- ROW 1: Major & Section -->
+        <div class="row g-4">
+            <!-- Left column  -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="progCurr" class="form-label">Curriculum Year</label>
+                    <select id="progCurr" class="form-select" required>
+                        <option value="" disabled selected>Select Curriculum</option>
+                    </select>
+                </div>
 
-                        <div class="mb-3">
-                            <label for="progProgram" class="form-label">Course Program</label>
-                            <select id="progProgram" class="form-select">
-                            <option value="" disabled selected>Select a Program</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="progMajor" class="form-label">Major (If applicable)</label>
-                            <select id="progMajor" class="form-select">
-                                <option value="" disabled selected>Select a Major</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="progSection" class="form-label">Section *</label>
-                            <input type="text" id="progSection" class="text-dark form-control">
-                        </div>
-
-                        <div class="row g-2 align-items-end mb-3">
-                            <div class="col">
-                            <label for="progAcadstart" class="form-label">Class Program for SY *</label>
-                            <input type="number" id="progAcadstart" class="form-control text-dark" placeholder="Start Year" required>
-                            </div>
-                            <div class="col-2 text-center">
-                            <span>-</span>
-                            </div>
-                            <div class="col">
-                            <input type="number" id="progAcadend" class="form-control text-dark" placeholder="End Year" required readonly>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="schedulewk" class="form-label">Schedule (M,T,W,TH,F,SAT,SUN)</label>
-                            <input type="text" id="schedulewk" class="form-control" placeholder="e.g. M" required>
-                        </div>
-                    </div>
-
-                    <!-- Right column -->
-                    <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="progCourses" class="form-label">Course *</label>
-                        <select id="progCourses" class="form-select" required>
+                <div class="mb-3">
+                    <label for="progCourses" class="form-label">Program</label>
+                    <select id="progCourses" class="form-select" required>
                         <option value="" disabled selected>Select Course</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="progProgram" class="form-label">Academic Level</label>
+                    <select id="progProgram" class="form-select">
+                        <option value="" disabled selected>Select a Program</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="progMajor" class="form-label">Major (If applicable)</label>
+                    <select id="progMajor" class="form-select">
+                        <option value="" disabled selected>Select a Major</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Right column -->
+            <div class="col-md-6">
+                <div class="d-flex gap-3 mb-3">
+                    <div class="d-flex flex-fill" style="width: 235px;">
+                        <div class="flex-fill">
+                            <label for="progAcadstart" class="form-label">Academic Year</label>
+                            <div class="d-flex">
+                                <input type="number" id="progAcadstart" class="form-control text-dark" placeholder="Start Year" required>
+                                <span class="d-flex align-items-center mx-2">-</span>
+                                <input type="number" id="progAcadend" class="form-control text-dark" placeholder="End Year" required readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-fill">
+                        <label for="progTerm" class="form-label">Term</label>
+                        <select id="progTerm" class="form-select" required>
+                            <option value="" disabled selected>Select Term</option>
+                            <option value="1st">1st Semester</option>
+                            <option value="2nd">2nd Semester</option>
+                            <option value="SUMMER">Summer</option>
                         </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="progTerm" class="form-label">Term *</label>
-                            <select id="progTerm" class="form-select" required>
-                                <option value="" disabled selected>Select Term</option>
-                                <option value="1st">1st Semester</option>
-                                <option value="2nd">2nd Semester</option>
-                                <option value="SUMMER">Summer</option>
-                            </select>
-                    </div>
-
-                    <div class="mb-3">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="subject_autocomp" class="form-label">Subject *</label>
-                        <input list="subjectOptions" id="subject_autocomp" name="combinedInput" class="form-control" placeholder="subject code or subject name" required>
-                        </div>
-
-                    <div class="mb-3">
-                            <label for="progYear" class="form-label">Year *</label>
-                            <input type="text" id="progYear" class="text-light form-control" readonly>
-                    </div>
-
-                    <div class="row g-2 align-items-end">
-                        <div class="col">
-                        <label for="time_input1" class="form-label">Time from *</label>
-                        <input type="time" id="time_input1" class="form-control" required>
-                        </div>
-                        <div class="col">
-                        <label for="time_input2" class="form-label">Time to *</label>
-                        <input type="time" id="time_input2" class="form-control" required>
-                        </div>
-                    </div>
-                    
-
-                    <div class="mb-3 mt-3">
-                        <label for="room" class="form-label">Room *</label>
-                        <select id="room" class="form-select" required>
-                            <option value="" disabled selected>Select Room</option>
-                        </select>
-                    </div>
-                    </div>
-                    
-                    <input type="hidden" id="progSubjectid" class="text-light form-control" >
-                    <input type="hidden" id="progDept" class="text-dark form-control" >
-                    <input type="hidden" id="subjectCompo" class="text-dark form-control" >
-                    
-                    <div class="checkbox-container flex items-center mt-2 mb-4">
-                        <input type="checkbox" id="international" class="mr-2">
-                        <label for="international">Check for International/Additional subject offerings/schedules (offerings for all courses)</label>
                     </div>
                 </div>
-            </form>
 
-            <div class="form-actions d-flex justify-content-center">
-                <button type="button" onclick="submitProgramForm()" class="btn btn-primary">Submit</button>
+                <div class="d-flex gap-3 mb-3">
+                    <div class="flex-fill">
+                        <label for="subject_autocomp" class="form-label">Course</label>
+                        <input list="subjectOptions" id="subject_autocomp" name="combinedInput" class="form-control" placeholder="subject code or subject name" required>
+                    </div>
+
+                    <div class="flex-shrink-0" style="width: 120px;">
+                        <label for="progYear" class="form-label">Year</label>
+                        <input type="text" id="progYear" class="form-control text-light" readonly>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-3 mb-3">
+                    <div class="text-center">
+                        <label class="form-label fw-bold d-block">Units</label>
+                        <div id="subjectUnits" class="form-control-plaintext text-center">0.0</div>
+                    </div>
+                    <div class="text-center">
+                        <label class="form-label fw-bold d-block">Hours</label>
+                        <div id="subjectHours" class="form-control-plaintext text-center">0.0</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="progSection" class="form-label">Section</label>
+                    <input type="text" id="progSection" class="text-dark form-control">
+                </div>
             </div>
         </div>
+
+        <!-- Full-width Divider -->
+        <hr class="my-4" style="border-top: 1px solid #1c1c1c;">
+
+        <!-- ROW 2: Remaining Fields -->
+        <div class="row g-4">
+            <!-- Left column -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="schedulewk" class="form-label">Schedule (M,T,W,TH,F,SAT,SUN)</label>
+                    <input type="text" id="schedulewk" class="form-control" placeholder="e.g. M" required>
+                </div>
+
+                <div class="row g-2 align-items-end">
+                    <div class="col">
+                        <label for="time_input1" class="form-label">Time from</label>
+                        <input type="time" id="time_input1" class="form-control" required>
+                    </div>
+                    <div class="col">
+                        <label for="time_input2" class="form-label">Time to</label>
+                        <input type="time" id="time_input2" class="form-control" disabled required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right column -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="room" class="form-label">Room (<i class="text-muted fs-7">Optional</i>)</label>
+                    <select id="room" class="form-select" required>
+                        <option value="" disabled selected>Select Room</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden Inputs -->
+        <input type="hidden" id="progSubjectid" class="text-light form-control">
+        <input type="hidden" id="progDept" class="text-dark form-control">
+        <input type="hidden" id="subjectCompo" class="text-dark form-control">
+
+        <!-- Checkbox -->
+        <div class="checkbox-container flex items-center mt-2 mb-4">
+            <input type="checkbox" id="international" class="mr-2">
+            <label for="international">Check for International/Additional subject offerings/schedules (offerings for all courses)</label>
+        </div>
+
+        <!-- Submit -->
+        <div class="form-actions d-flex justify-content-center">
+            <button type="button" onclick="submitProgramForm()" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+
+
         <script>
 document.getElementById('progAcadstart').addEventListener('input', function () {
     const startYear = parseInt(this.value);
@@ -200,59 +227,55 @@ document.getElementById('progAcadstart').addEventListener('input', function () {
 </script>
     <script>
 
-    function submitProgramForm() {
-        if (!$('#progCourses').val()) {
-            alert('Course is required.');
-            return false;
-        }
-        if (!$('#progProgram').val()) {
-            alert('Program is required.');
-            return false;
-        }
-        if (!$('#progSubjectid').val()) {
-            alert('Subject ID is required.');
-            return false;
-        }
-        if (!$('#room').val()) {
-            alert('Room is required.');
-            return false;
-        }
-        if (!$('#progCurr').val()) {
-            alert('Curriculum is required.');
-            return false;
-        }
-        if (!$('#progSection').val()) {
-            alert('Section is required.');
-            return false;
-        }
-        if (!$('#progYear').val()) {
-            alert('Year is required.');
-            return false;
-        }
-        if (!$('#progTerm').val()) {
-            alert('Term is required.');
-            return false;
-        }
-        if (!$('#progAcadstart').val()) {
-            alert('Start Year is required.');
-            return false;
-        }
-        if (!$('#progAcadend').val()) {
-            alert('End Year is required.');
-            return false;
-        }
-        if (!$('#schedulewk').val()) {
-            alert('Schedule Week is required.');
-            return false;
-        }
-        if (!$('#time_input1').val()) {
-            alert('Time Input start is required.');
-            return false;
-        }
-        if (!$('#time_input2').val()) {
-            alert('Time Input end is required.');
-            return false;
-        }
+   function submitProgramForm() {
+    if (!$('#progCourses').val()) {
+        showGenericModal('Program is required.');
+        return false;
+    }
+    if (!$('#progProgram').val()) {
+        showGenericModal('Academic Year is required.');
+        return false;
+    }
+    if (!$('#progSubjectid').val()) {
+        showGenericModal('Course Name or Course ID is required.');
+        return false;
+    }
+    if (!$('#progCurr').val()) {
+        showGenericModal('Curriculum is required.');
+        return false;
+    }
+    if (!$('#progSection').val()) {
+        showGenericModal('Section is required.');
+        return false;
+    }
+    if (!$('#progYear').val()) {
+        showGenericModal('Year is required.');
+        return false;
+    }
+    if (!$('#progTerm').val()) {
+        showGenericModal('Term is required.');
+        return false;
+    }
+    if (!$('#progAcadstart').val()) {
+        showGenericModal('Start Year is required.');
+        return false;
+    }
+    if (!$('#progAcadend').val()) {
+        showGenericModal('End Year is required.');
+        return false;
+    }
+    if (!$('#schedulewk').val()) {
+        showGenericModal('Schedule Week is required.');
+        return false;
+    }
+    if (!$('#time_input1').val()) {
+        showGenericModal('Time Input start is required.');
+        return false;
+    }
+    if (!$('#time_input2').val()) {
+        showGenericModal('Time Input end is required.');
+        return false;
+    }
 
         $.ajax({
             url: '../programAPI.php',
@@ -284,12 +307,12 @@ document.getElementById('progAcadstart').addEventListener('input', function () {
                         const jsonResponse = typeof response === 'string' ? JSON.parse(response) : response;
 
                         if (jsonResponse.status === 'success') {
-                            alert(jsonResponse.message);
+                            showSuccessModal(jsonResponse.message);
                             $('form')[0].reset();
-                            window.location.href = "../ClassProgramPerSubject.php";
-                        } else if (jsonResponse.status === 'error') {
-                            alert(jsonResponse.message);
-                        } else {
+                        }
+                            else if (jsonResponse.status === 'error') {
+                            showConflictModal(jsonResponse.message);
+                            } else {
                             alert('Unexpected server response. Please try again.');
                         }
                     } catch (e) {
@@ -355,6 +378,39 @@ document.getElementById('progAcadstart').addEventListener('input', function () {
             }
         </script>
 
+        <div id="conflictModal" class="fixed inset-0 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-6 max-w-sm w-full text-center shadow-lg">
+    <h2 class="text-lg font-semibold mb-4">Schedule Conflict</h2>
+    <p id="conflictMessage" class="mb-6 text-gray-700">Conflict message here</p>
+    <button id="closeConflictModal" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      OK
+    </button>
+  </div>
+</div>
+
+<div id="genericModal" class="fixed inset-0 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-6 max-w-sm w-full text-center shadow-lg">
+    <h2 class="text-lg font-semibold mb-4">Validation Error</h2>
+    <p id="genericMessage" class="mb-6 text-gray-700">Message goes here</p>
+    <button id="closeGenericModal" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      OK
+    </button>
+  </div>
+</div>
+
+
+<!-- Success Modal -->
+<div id="successModal"  class="fixed inset-0 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-6 max-w-sm w-full text-center shadow-lg">
+    <h2 class="text-lg font-semibold text-green-600 mb-4">Success</h2>
+    <p id="successMessage" class="mb-6 text-gray-700">Substitution added successfully!</p>
+    <button id="closeSuccessModal" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+      OK
+    </button>
+  </div>
+</div>
+
+
 </body>
 
 </html>
@@ -366,6 +422,65 @@ document.getElementById('progAcadstart').addEventListener('input', function () {
         fetchDepartments();
 
 </script>
+
+
+<script>
+  // Success Modal
+  function showSuccessModal(message) {
+    $('#successMessage').text(message);
+    $('#successModal')
+      .removeClass('hidden')
+      .css('display', 'none')
+      .addClass('flex')
+      .fadeIn(200);
+  }
+
+  $('#closeSuccessModal').on('click', function () {
+    $('#successModal').fadeOut(200, function () {
+      $(this).removeClass('flex').addClass('hidden');
+      location.reload(); // Reload after success
+    });
+  });
+
+  // Conflict Modal
+  function showConflictModal(message) {
+    $('#conflictMessage').text(message);
+    $('#conflictModal')
+      .removeClass('hidden')
+      .css('display', 'none')
+      .addClass('flex')
+      .fadeIn(200);
+  }
+
+  $('#closeConflictModal').on('click', function () {
+    $('#conflictModal').fadeOut(200, function () {
+      $(this).removeClass('flex').addClass('hidden');
+    });
+  });
+
+  // Generic Modal (for validation)
+  function showGenericModal(message) {
+    $('#genericMessage').text(message);
+    $('#genericModal')
+      .removeClass('hidden')
+      .css('display', 'none')
+      .addClass('flex')
+      .fadeIn(200);
+  }
+
+  $('#closeGenericModal').on('click', function () {
+    $('#genericModal').fadeOut(200, function () {
+      $(this).removeClass('flex').addClass('hidden');
+    });
+  });
+</script>
+
+
+
+
+
+
+
 
 <!-- CSS styling -->
 <style scoped>

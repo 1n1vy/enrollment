@@ -34,6 +34,12 @@ if (!isset($_SESSION['username'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Load Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body>
@@ -50,7 +56,7 @@ if (!isset($_SESSION['username'])) {
             </ul>
         </nav>
         <section class="section-header text-sm md:text-xl">
-            <h1>CLASS PROGRAMS WITHOUT ROOM ASSIGNMENT</h1>
+            <h5>CLASS PROGRAMS WITHOUT ROOM ASSIGNMENT</h5>
         </section>
 
         <!-- Form container -->
@@ -59,17 +65,17 @@ if (!isset($_SESSION['username'])) {
                 <div class="form-group">Note: Enter school year information to check if class program is not having room assignment</div>
                 <!-- School Year -->
                 <div class="form-group">
-                    <label for="sy">School Year - Term</label>
+                    <label for="sy">Academic Year - Term</label>
                     <div class="form-row">
-                        <input type="text" id="sy" placeholder="Enter">
+                        <input type="number" id="sy" placeholder="Enter">
                         <span>to</span>
-                        <input type="text" id="sy2" placeholder="Enter">
+                        <input type="number" id="sy2" placeholder="Enter">
                         <!-- Dropdown for selecting the semester -->
                         <select id="term" class="ml-2 p-1 border rounded w-20">
+                            <option value="" selected disabled>Select Term</option>
                             <option value="1st">1st</option>
                             <option value="2nd">2nd</option>
-                            <option value="3nd">3rd</option>
-                            <option value="4nd">Summer</option>
+                            <option value="Summer">Summer</option>
                         </select>
                     </div>
                 </div>
@@ -92,32 +98,11 @@ if (!isset($_SESSION['username'])) {
                                 <th class="py-2 px-4 border">SUBJECT CODE</th>
                                 <th class="py-2 px-4 border">SUBJECT NAME</th>
                                 <th class="py-2 px-4 border">SECTION</th>
-                                <th class="py-2 px-4 border">OFFERED BY COLLEGE</th>
-                                <th class="py-2 px-4 border">OFFERED BY DEPARTMENT</th>
+                                <th class="py-2 px-4 border">COURSE</th>
+                                <th class="py-2 px-4 border">DEPARTMENT</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="text-gray-700 bg-white">
-                                <td class="py-2 px-4 border text-center">CCL211-18</td>
-                                <td class="py-2 px-4 border text-center">Information Management (Lab)</td>
-                                <td class="py-2 px-4 border text-center">1BSIT-3</td>
-                                <td class="py-2 px-4 border text-center">College of Informatics and Computing Studies</td>
-                                <td class="py-2 px-4 border text-center">-----</td>
-                            </tr>
-                            <tr class="text-gray-700 bg-white">
-                                <td class="py-2 px-4 border text-center">-----</td>
-                                <td class="py-2 px-4 border text-center">-----</td>
-                                <td class="py-2 px-4 border text-center">-----</td>
-                                <td class="py-2 px-4 border text-center">-----</td>
-                                <td class="py-2 px-4 border text-center">-----</td>
-                            </tr>
-                            <tr class="text-gray-700 bg-white">
-                                <td class="py-2 px-4 border text-center">-----</td>
-                                <td class="py-2 px-4 border text-center">-----</td>
-                                <td class="py-2 px-4 border text-center">-----</td>
-                                <td class="py-2 px-4 border text-center">-----</td>
-                                <td class="py-2 px-4 border text-center">-----</td>
-                            </tr>
                         </tbody>
                     </table>
 
@@ -183,10 +168,106 @@ if (!isset($_SESSION['username'])) {
                             '<p style="color: red; text-align: center;">Navbar could not be loaded.</p>';
                     });
             })();
+            
+                
+                
+            document.getElementById('sy').addEventListener('input', function () {
+                    const startYear = parseInt(this.value);
+                    const currentYear = new Date().getFullYear();
+                    const endYearInput = document.getElementById('sy2');
+    
+                    if (!isNaN(startYear)) {
+                        if (startYear > currentYear) {
+                            this.value = currentYear;
+                            endYearInput.value = currentYear + 1;
+                        } else {
+                            endYearInput.value = startYear + 1;
+                        }
+                    } else {
+                        endYearInput.value = '';
+                    }
+                });
+    
+                function updateEndYear() {
+                    const currYearSelect = document.getElementById('curryear');
+                    const endYearInput = document.getElementById('curryear-end');
+                    const selectedOption = currYearSelect.options[currYearSelect.selectedIndex];
+    
+                    if (selectedOption) {
+                        const startYear = parseInt(selectedOption.textContent);
+    
+                        if (!isNaN(startYear)) {
+                            endYearInput.value = startYear + 1;
+                        } else {
+                            endYearInput.value = ""; 
+                        }
+                    } else {
+                        endYearInput.value = ""; 
+                    }
+                }
         </script>
 </body>
 
 </html>
+
+<script>
+
+function loadTable() {
+    const acadStart = document.getElementById('sy').value;
+    const acadEnd = document.getElementById('sy2').value;
+    const term = document.getElementById('term').value;
+
+    if (!acadStart || !acadEnd || !term) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+
+    $.ajax({
+        url: 'http://localhost/capst/ClassProgram/programAPI.php',
+        type: 'GET',
+        data: {
+            action: 'getProgramsWithoutRoom',
+            acadStart: acadStart,
+            acadEnd: acadEnd,
+            term: term
+        },
+        success: function (response) {
+            console.log('Programs Without Room Response:', response);
+
+            const data = typeof response === 'string' ? JSON.parse(response) : response;
+
+            const tableBody = document.querySelector('table tbody');
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            if (data.length > 0) {
+                data.forEach(program => {
+                    tableBody.innerHTML += `
+                        <tr class="text-gray-700 bg-white">
+                            <td class="py-2 px-4 border text-center">${program.subject_code}</td>
+                            <td class="py-2 px-4 border text-center">${program.subject_name}</td>
+                            <td class="py-2 px-4 border text-center">${program.section}</td>
+                            <td class="py-2 px-4 border text-center">${program.course_name}</td>
+                            <td class="py-2 px-4 border text-center">${program.department_name}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="py-2 px-4 border text-center">No data available</td>
+                    </tr>
+                `;
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error fetching programs without room:', xhr.responseText);
+            alert('Failed to load data. Please try again.');
+        }
+    });
+}
+
+
+</script>
 
 <!-- CSS styling -->
 <style scoped>

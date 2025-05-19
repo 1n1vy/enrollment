@@ -539,8 +539,6 @@ $(document).ready(function () {
                         $('#loads').show();
                         $('#canteach').hide();
 
-                        // $('#load_info').text("School Year: "+faculty.school_year_from + "-" + faculty.school_year_to + " | " + faculty.term + " | Current Load:" + faculty.units || 'Casual');
-                        //School Year: 2023 - 2024 | Term: 2nd | Current Load: 0.0
                         $('#empType2').text(faculty.role || 'Casual');
                         var subjectHtml = '';
                         var subjectsFound = false;
@@ -550,7 +548,6 @@ $(document).ready(function () {
                             if (subject.subject_code) {
                                 subjectsFound = true;
 
-                                // Add units to total (ensure it's a number to avoid string concatenation)
                                 totalUnits += parseFloat(subject.units) || 0.0;
 
                                 subjectHtml += `

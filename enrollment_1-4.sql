@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2025 at 05:34 AM
+-- Generation Time: May 17, 2025 at 03:43 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -178,7 +178,7 @@ CREATE TABLE `curriculum_years` (
 --
 
 INSERT INTO `curriculum_years` (`id`, `course_id`, `curriculum_year_start`, `curriculum_year_end`, `description`) VALUES
-(9, 15, '2015', '2018', 'test_curriculum_year');
+(9, 15, '2018', '2019', 'test_curriculum_year');
 
 -- --------------------------------------------------------
 
@@ -288,7 +288,7 @@ CREATE TABLE `faculty_load` (
 --
 
 INSERT INTO `faculty_load` (`id`, `college_id`, `course_id`, `professor_id`, `subject_id`, `units`, `day`, `class_time_from`, `class_time_to`, `school_year_from`, `school_year_to`, `year_level`, `term`, `room`, `section`, `created_at`) VALUES
-(7, 6, 18, 1, 23, '2', 'T,TH', '02:00 PM', '04:00 PM', '2025', '2026', '1', '1st', 420, 'BSIS1-A', '2025-04-30 06:06:47');
+(16, 6, 18, 1, 5, '3', 'T,TH', '02:00 PM', '04:00 PM', '2025', '2026', '1', '1st', 212, 'BSIS1-B', '2025-05-07 22:44:56');
 
 -- --------------------------------------------------------
 
@@ -345,9 +345,11 @@ CREATE TABLE `programs` (
 --
 
 INSERT INTO `programs` (`program_id`, `department_id`, `course_id`, `course_program`, `subject_id`, `major_id`, `curriculum_id`, `section`, `year_level`, `term`, `school_year`, `subject_type`, `subject_component`, `schedule_day`, `schedule_time`, `is_international`, `room_id`) VALUES
-(36, 6, 17, 1, 24, 1, 9, 'BSEMC2-1', '3', '1st', '2025-2026', 'REG', 'LAB', 'M,W,F', '07:00 AM - 09:00 AM', 0, 16),
-(44, 6, 19, 1, 23, 0, 9, 'BSIS1-A', '1', '1st', '2025-2026', 'REG', 'LEC', 'T,TH', '02:00 PM - 04:00 PM', 0, 2),
-(45, 6, 19, 1, 5, 0, 9, 'BSIT1-B', '1', '1st', '2025-2026', 'REG', 'LEC', 'T,TH', '02:00 PM - 04:00 PM', 0, 4);
+(84, 6, 18, 1, 1, 0, 9, 'BSIT1-1', '1', '1st', '2025-2026', NULL, 'LEC', 'M', '08:00 AM - 10:00 AM', 0, 4),
+(85, 6, 18, 1, 3, 0, 9, 'BSIT1-2', '1', '1st', '2025-2026', NULL, 'LEC', 'M', '10:00 AM - 12:00 PM', 0, 4),
+(86, 6, 18, 1, 2, 0, 9, 'BSIT1-1', '1', '1st', '2025-2026', NULL, 'LEC', 'T', '07:30 AM - 10:30 AM', 0, 4),
+(87, 6, 18, 1, 4, 0, 9, 'BSIT1-2', '1', '1st', '2025-2026', NULL, 'LEC', 'W', '12:00 PM - 03:00 PM', 0, 4),
+(88, 6, 18, 1, 46, 0, 9, 'BSIT3-1', '3', '1st', '2025-2026', NULL, 'LEC', 'M', '01:30 PM - 03:30 PM', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -403,11 +405,10 @@ CREATE TABLE `rooms` (
 --
 
 INSERT INTO `rooms` (`id`, `building_code`, `floor`, `room_number`, `room_capacity`, `no_subject`, `room_conflict`, `room_type`, `status`, `description`, `last_inspection_date`, `created_at`, `updated_at`, `school_year`, `term`, `building`, `building_location`, `department_id`) VALUES
-(2, 'PSB', '4th Floor', '420', 30, 0, 0, 'LEC', 'OCCUPIED', 'This room is occupied for College of Medicine Lecture room', '0000-00-00', '0000-00-00 00:00:00', '2025-04-29 16:03:52', '2025', '2nd-Semester', '', 'PSB', 6),
-(3, 'BLDG A', 'Ground', '248', 40, 0, 0, 'Library', 'OCCUPIED', 'Reading Center', '0000-00-00', '0000-00-00 00:00:00', '2025-04-29 16:03:55', '2025', '2nd-Semester', '', 'IS Bldg. A', 6),
-(4, 'MAIN', '2nd Floor', '212', 35, 0, 0, 'LEC', 'AVAILABLE', 'This room is occupied for College of Arts and Sciences', '0000-00-00', '0000-00-00 00:00:00', '2025-04-29 16:03:58', '2025', '2nd-Semester', 'MAIN', 'Main', 6),
-(7, 'BLDG B', '2nd Floor', '208', 40, 0, 0, 'LEC', 'OCCUPIED', 'Lecture Room for IS Students', '0000-00-00', '0000-00-00 00:00:00', '2025-04-29 16:04:01', '2024', '1st-Semester', '', 'IS Bldg. B', 6),
-(16, 'MAIN', '2nd Floor', '212', 35, 0, 0, 'LAB', 'AVAILABLE', 'This room is occupied for College of Arts and Sciences', '0000-00-00', '0000-00-00 00:00:00', '2025-04-29 16:03:58', '2025', '2nd-Semester', 'MAIN', 'Main', 6);
+(3, 'BLDG A', 'Ground', 'B248', 40, 0, 0, 'Library', 'OCCUPIED', 'Reading Center', '0000-00-00', '0000-00-00 00:00:00', '2025-05-08 07:30:09', '2025', '2nd-Semester', '', 'IS Bldg. A', 6),
+(4, 'MAIN', '2nd Floor', 'M213', 35, 0, 0, 'LEC', 'AVAILABLE', 'This room is occupied for College of Arts and Sciences', '0000-00-00', '0000-00-00 00:00:00', '2025-05-09 09:56:03', '2025', '2nd-Semester', 'MAIN', 'Main', 6),
+(7, 'BLDG B', '2nd Floor', 'B208', 40, 0, 0, 'LEC', 'OCCUPIED', 'Lecture Room for IS Students', '0000-00-00', '0000-00-00 00:00:00', '2025-05-08 07:30:21', '2024', '1st-Semester', '', 'IS Bldg. B', 6),
+(16, 'MAIN', '2nd Floor', 'M112', 35, 0, 0, 'LAB', 'AVAILABLE', 'This room is occupied for College of Arts and Sciences', '0000-00-00', '0000-00-00 00:00:00', '2025-05-09 09:56:08', '2025', '2nd-Semester', 'MAIN', 'Main', 6);
 
 -- --------------------------------------------------------
 
@@ -599,7 +600,7 @@ CREATE TABLE `students` (
 
 INSERT INTO `students` (`id`, `student_number`, `first_name`, `last_name`, `middle_name`, `suffix`, `gender`, `birthdate`, `age`, `religion`, `email`, `phone`, `address`, `departments_id`, `course_id`, `major_id`, `education_level_id`, `year_terms_id`, `classification_code`, `student_status`, `created_at`, `updated_at`, `enrollment_status`, `advised_status`, `status`, `maximum_units`, `school_year`, `term`, `is_paid`, `payment_mode`, `year_level`) VALUES
 (4, '19-34567-102', 'Nadine', 'Lustre', 'Alexis', '', 'female', '2001-10-31', 24, 1, 'nadine.lustre@email.ph', '0917-345-6789', '789 Pasig Blvd., MNL', 6, 18, NULL, 1, 16, 2, 'transferee', '2025-04-01 19:41:36', '2025-04-01 19:41:36', 'enrolled', 1, 'Active', 21, '2024-2025', '1st', 0, NULL, '2nd'),
-(7, '19-67890-105', 'Liza', 'Hope', 'Soberano', '', 'female', '2001-01-04', 24, 1, 'liza.soberano@email.ph', '0918-678-9012', '321 Davao St., Davao', 6, 19, NULL, 1, 14, 3, 'old student', '2025-04-01 19:41:36', '2025-04-01 19:41:36', 'pending', 1, 'Active', 18, '2025-2026', '1st', 0, NULL, '1st'),
+(7, '19-67890-105', 'Liza', 'Hope', 'Soberano', '', 'female', '2001-01-04', 24, 1, 'liza.soberano@email.ph', '0918-678-9012', '321 Davao St., Davao', 6, 19, NULL, 1, 14, 3, 'old student', '2025-04-01 19:41:36', '2025-04-01 19:41:36', 'pending', 1, 'Active', 18, '2025-2026', '1st', 0, 'fully-paid', '1st'),
 (10, '20-90123-108', 'Alden', 'Richard', 'Richards', '', 'male', '2003-01-02', 22, 1, 'alden.richards@email.ph', '0921-901-2345', '876 Alabang Rd., MNL', 6, 17, 5, 1, 14, 4, 'cross enrollee', '2025-04-01 19:41:36', '2025-04-01 19:41:36', 'not enrolled\n', 0, 'Active', 12, '2024-2025', '1st', 0, NULL, '1st'),
 (12, '21-12345-110', 'Kim', 'Kimberly', 'Chiu', '', 'female', '2003-04-19', 22, 1, 'kim.chiu@email.ph', '0923-123-4567', '678 Iloilo Ave., Iloilo', NULL, NULL, NULL, NULL, NULL, 3, 'old student', '2025-04-01 19:41:36', '2025-04-01 19:41:36', 'enrolled', 1, 'Active', 18, '2024-2025', '1st', 0, NULL, '3rd'),
 (13, '22-23456-111', 'Coco', 'Rodel', 'Martin', '', 'male', '2004-11-01', 21, 0, 'coco.martin@email.ph', '0924-234-5678', '890 Zambales St., Zambales', NULL, NULL, NULL, NULL, NULL, 1, 'new student', '2025-04-01 19:41:36', '2025-04-01 19:41:36', 'not enrolled\n', 0, 'Active', 25, '2024-2025', '2nd', 0, NULL, '1st'),
@@ -659,8 +660,7 @@ CREATE TABLE `student_course` (
 --
 
 INSERT INTO `student_course` (`id`, `student_id`, `program_id`, `enrollment_date`, `school_year`, `term`, `status`) VALUES
-(20, '4', 36, '2025-04-07', '2024-2025', '1', 'Enrolled'),
-(21, '7', 44, '2025-04-30', '2025-2026', '1', 'Enrolled');
+(20, '4', 36, '2025-04-07', '2024-2025', '1', 'Enrolled');
 
 -- --------------------------------------------------------
 
@@ -683,43 +683,77 @@ CREATE TABLE `subjects` (
   `lec_units` int(11) NOT NULL,
   `lab_units` int(11) NOT NULL,
   `units` double(11,2) NOT NULL DEFAULT 1.00,
+  `hours` int(5) NOT NULL,
   `year_level` int(11) NOT NULL,
-  `term` varchar(55) NOT NULL
+  `term` varchar(55) NOT NULL,
+  `pre_req` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `subjects`
 --
 
-INSERT INTO `subjects` (`id`, `subject_code`, `subject_name`, `department_id`, `department_code`, `course_id`, `created_by`, `status`, `is_requested_subject`, `created_at`, `updated_at`, `lec_units`, `lab_units`, `units`, `year_level`, `term`) VALUES
-(1, 'ccc111-18', 'Introduction to Computing', 6, 'CICS', 18, 'Dr. De Luna', 'active', 0, '2025-04-01 08:27:22', '2025-05-02 03:18:05', 2, 0, 2.00, 2, '2nd'),
-(2, 'ccl111-18', 'Introduction to Computing(Lab)\r\n', 6, 'CICS', 18, 'Dr. De Luna', 'active', 0, '2025-04-01 08:27:22', '2025-05-02 03:18:07', 0, 1, 1.00, 3, '1st'),
-(3, 'ccc112-18', 'Fundamentals of Programming', 6, 'CICS', 18, 'Prof. Lex', 'active', 0, '2025-04-01 09:17:16', '2025-05-02 03:18:09', 2, 0, 2.00, 3, 'Summer'),
-(4, 'ccl112-18', 'Fundamentals of Programming(Lab)', 6, 'CICS', 18, 'Prof. Lex', 'active', 0, '2025-04-01 09:17:16', '2025-05-02 03:18:11', 0, 1, 1.00, 4, '1st'),
-(5, 'cit113-18', 'Fundamentals of Information Technology', 6, 'CICS', 18, 'Dr. Smith', 'active', 0, '2025-04-01 09:17:16', '2025-05-02 03:18:13', 3, 0, 3.00, 1, '1st'),
-(12, 'ccc121-18', 'Intermediate Programming\r\n', 6, 'CICS', 18, 'Prof. AJ', 'active', 0, '2025-04-01 09:17:16', '2025-05-02 03:18:15', 2, 0, 2.00, 4, '1st'),
-(13, 'ccl121-18', 'Intermediate Programming(Lab)\r\n', 6, 'CICS', 19, 'Prof. AJ', 'active', 0, '2025-04-01 09:17:16', '2025-05-02 03:19:02', 0, 1, 1.00, 1, 'Summer'),
-(14, 'cit122-18', 'Fundamentals of Network\r\n', 6, 'CICS', 19, 'Prof. Myra', 'active', 0, '2025-04-01 09:17:16', '2025-05-02 03:19:02', 2, 0, 2.00, 1, '1st'),
-(15, 'itl122-18', 'Fundamentals of Network(Lab)\r\n', 6, 'CICS', 19, 'Prof. Myra', 'active', 0, '2025-04-01 09:17:16', '2025-05-02 03:19:02', 0, 1, 1.00, 1, 'Summer'),
-(16, 'cit123-18', 'Discrete Structure\r\n', 6, 'CICS', 19, 'Dr. Hagos', 'active', 0, '2025-04-01 09:17:16', '2025-05-02 03:19:02', 3, 0, 3.00, 2, '2nd'),
-(23, 'ccc211-18', 'Information Management 1\r\n', 6, 'CICS', 19, 'Dr. Smith', 'active', 0, '2025-04-01 09:17:16', '2025-05-02 03:19:02', 2, 0, 2.00, 1, '1st'),
-(24, 'ccl211-18', 'Information Management 1 (Lab)\r\n', 6, 'CICS', 19, 'Dr. Smith', 'active', 0, '2025-04-01 09:17:16', '2025-05-02 03:19:02', 0, 1, 1.00, 2, '1st'),
-(25, 'ccc212-18', 'Data Structures and Algorithms\r\n', 6, 'CICS', 19, 'Dr. Smith', 'active', 0, '2025-04-01 09:17:16', '2025-05-02 03:19:02', 2, 0, 2.00, 2, 'Summer'),
-(26, 'ccl212-18', 'Data Structures and Algorithms (Lab)', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:17:16', '2025-05-02 03:19:02', 0, 1, 1.00, 3, '2nd'),
-(27, 'cit213-18', 'Human Computer Interaction\r\n', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 2, 0, 2.00, 3, 'Summer'),
-(28, 'itl213-18', 'Human Computer Interaction (Lab)\r\n', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 1, 0, 1.00, 2, '1st'),
-(29, 'citel1-18', 'IT Elective 1\r\n', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 2, 0, 2.00, 1, 'Summer'),
-(30, 'itlel1-18', 'IT Elective 1(Lab)\r\n', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 0, 1, 1.00, 3, 'Summer'),
-(35, 'cit221-18', 'Object Oriented Programming\r\n', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 2, 0, 2.00, 4, '1st'),
-(36, 'itl221-18', 'Object Oriented Programming (Lab)\r\n', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 0, 1, 1.00, 3, '2nd'),
-(37, 'cit222-18', 'Operating Systems\r\n', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 2, 0, 2.00, 1, '2nd'),
-(38, 'itl222-18', 'Operating Systems (Lab)', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 0, 1, 1.00, 4, 'Summer'),
-(39, 'cit223-18', 'Information Management 2\r\n', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 2, 0, 2.00, 2, 'Summer'),
-(40, 'itl223-18', 'Information Management 2(Lab)\r\n', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 0, 1, 1.00, 1, '1st'),
-(41, 'cit224-18', 'System Integration and Architecture 1\r\n', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 2, 0, 2.00, 3, '1st'),
-(42, 'itl224-18', 'System Integration and Architecture 1(Lab)\r\n', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 0, 1, 1.00, 2, '2nd'),
-(44, 'citel2-18', 'IT Elective 2\r\n', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 2, 0, 2.00, 2, '1st'),
-(45, 'itlel2-18', 'IT Elective 2 (Lab)\r\n', 6, 'CICS', 19, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-02 03:19:02', 0, 1, 1.00, 4, '1st');
+INSERT INTO `subjects` (`id`, `subject_code`, `subject_name`, `department_id`, `department_code`, `course_id`, `created_by`, `status`, `is_requested_subject`, `created_at`, `updated_at`, `lec_units`, `lab_units`, `units`, `hours`, `year_level`, `term`, `pre_req`) VALUES
+(1, 'CCC111-18', 'Introduction to Computing (Lec)', 6, 'CICS', 18, 'Dr. De Luna', 'active', 0, '2025-04-01 08:27:22', '2025-05-12 19:53:21', 2, 0, 2.00, 2, 1, '1st', 0),
+(2, 'CCL111-18', 'Introduction to Computing (Lab)\n', 6, 'CICS', 18, 'Dr. De Luna', 'active', 0, '2025-04-01 08:27:22', '2025-05-12 20:10:19', 0, 1, 1.00, 3, 1, '1st', 0),
+(3, 'CCC112-18', 'Fundamentals of Programming (Lec)', 6, 'CICS', 18, 'Prof. Lex', 'active', 0, '2025-04-01 09:17:16', '2025-05-12 19:53:32', 2, 0, 2.00, 2, 1, '1st', 0),
+(4, 'CCL112-18', 'Fundamentals of Programming (Lab)', 6, 'CICS', 18, 'Prof. Lex', 'active', 0, '2025-04-01 09:17:16', '2025-05-12 20:10:30', 0, 1, 1.00, 3, 1, '1st', 0),
+(5, 'CIT113-18', 'Fundamentals of Information Technology', 6, 'CICS', 18, 'Dr. Smith', 'active', 0, '2025-04-01 09:17:16', '2025-05-12 20:11:20', 3, 0, 3.00, 3, 1, '1st', 0),
+(12, 'CCC121-18', 'Intermediate Programming (Lec)\n', 6, 'CICS', 18, 'Prof. AJ', 'active', 0, '2025-04-01 09:17:16', '2025-05-12 20:10:44', 2, 0, 2.00, 2, 1, '2nd', 0),
+(13, 'CCL121-18', 'Intermediate Programming (Lab)\n', 6, 'CICS', 18, 'Prof. AJ', 'active', 0, '2025-04-01 09:17:16', '2025-05-12 20:11:02', 0, 1, 1.00, 3, 1, '2nd', 0),
+(14, 'CIT122-18', 'Fundamentals of Network (Lec)\n', 6, 'CICS', 18, 'Prof. Myra', 'active', 0, '2025-04-01 09:17:16', '2025-05-12 20:10:53', 2, 0, 2.00, 2, 1, '2nd', 0),
+(15, 'ITL122-18', 'Fundamentals of Network (Lab)\n', 6, 'CICS', 18, 'Prof. Myra', 'active', 0, '2025-04-01 09:17:16', '2025-05-12 20:10:58', 0, 1, 1.00, 3, 1, '2nd', 0),
+(16, 'CIT123-18', 'Discrete Structure\r\n', 6, 'CICS', 18, 'Dr. Hagos', 'active', 0, '2025-04-01 09:17:16', '2025-05-10 16:34:09', 3, 0, 3.00, 3, 1, '2nd', 0),
+(23, 'CCC211-18', 'Information Management 1 (Lec)\n', 6, 'CICS', 18, 'Dr. Smith', 'active', 0, '2025-04-01 09:17:16', '2025-05-12 20:11:34', 2, 0, 2.00, 2, 2, '1st', 0),
+(24, 'CCL211-18', 'Information Management 1 (Lab)\r\n', 6, 'CICS', 18, 'Dr. Smith', 'active', 0, '2025-04-01 09:17:16', '2025-05-10 16:35:02', 0, 1, 1.00, 3, 2, '1st', 0),
+(25, 'CCC212-18', 'Data Structures and Algorithms (Lec)\n', 6, 'CICS', 18, 'Dr. Smith', 'active', 0, '2025-04-01 09:17:16', '2025-05-12 20:11:43', 2, 0, 2.00, 2, 2, '1st', 0),
+(26, 'CC212-18', 'Data Structures and Algorithms (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-04-01 09:17:16', '2025-05-10 16:35:14', 0, 1, 1.00, 3, 2, '1st', 0),
+(27, 'CIT213-18', 'Human Computer Interaction (Lec)\n', 6, 'CICS', 18, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-12 20:11:56', 2, 0, 2.00, 2, 2, '1st', 0),
+(28, 'ITL213-18', 'Human Computer Interaction (Lab)\r\n', 6, 'CICS', 18, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-10 16:36:04', 1, 0, 1.00, 3, 2, '1st', 0),
+(29, 'CITE1-18', 'IT Elective 1\n(Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-12 20:12:10', 2, 0, 2.00, 2, 2, '1st', 0),
+(30, 'ITLEL1-18', 'IT Elective 1 (Lab)\n', 6, 'CICS', 18, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-12 20:12:15', 0, 1, 1.00, 3, 2, '1st', 0),
+(35, 'CIT221-18', 'Object Oriented Programming (Lec)\n', 6, 'CICS', 18, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-12 20:12:25', 2, 0, 2.00, 2, 2, '2nd', 0),
+(36, 'IT221-18', 'Object Oriented Programming (Lab)\r\n', 6, 'CICS', 18, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-10 16:36:36', 0, 1, 1.00, 3, 2, '2nd', 0),
+(37, 'CIT222-18', 'Operating Systems\n(Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-12 20:12:38', 2, 0, 2.00, 2, 2, '2nd', 0),
+(38, 'ITL222-18', 'Operating Systems (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-10 16:37:56', 0, 1, 1.00, 3, 2, '2nd', 0),
+(39, 'CIT223-18', 'Information Management 2 (Lec)\n', 6, 'CICS', 18, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-12 20:12:48', 2, 0, 2.00, 2, 2, '2nd', 0),
+(40, 'ITL223-18', 'Information Management 2 (Lab)\n', 6, 'CICS', 18, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-12 20:12:54', 0, 1, 1.00, 3, 2, '2nd', 24),
+(41, 'CIT224-18', 'System Integration and Architecture 1 (Lec)\n', 6, 'CICS', 18, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-12 20:13:03', 2, 0, 2.00, 2, 2, '2nd', 0),
+(42, 'ITL224-18', 'System Integration and Architecture 1 (Lab)\n', 6, 'CICS', 18, '', 'active', 0, '2025-04-01 09:40:50', '2025-05-12 20:13:15', 0, 1, 1.00, 3, 2, '2nd', 0),
+(43, 'CIT225-18', 'Quantitative Methods', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:02:09', '2025-05-10 16:38:32', 3, 0, 3.00, 3, 2, '2nd', 0),
+(44, 'CITEL2-18', 'IT Elective 2 (Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:03:51', '2025-05-12 20:13:45', 2, 0, 2.00, 2, 2, '2nd', 0),
+(45, 'ITLEL2-18', 'IT Elective 2 (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:04:47', '2025-05-10 16:38:48', 0, 1, 1.00, 3, 2, '2nd', 0),
+(46, 'CCC311-18', 'Applications Development & Emerging Technologies (Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:07:32', '2025-05-12 20:13:51', 2, 0, 2.00, 2, 3, '1st', 0),
+(47, 'CCL311-18', 'Applications Development & Emerging Technologies (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:07:32', '2025-05-10 16:39:04', 0, 1, 1.00, 3, 3, '1st', 0),
+(48, 'CIT312-18', 'Inforrmation Assurance and Security 1 (Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:07:32', '2025-05-12 20:13:55', 2, 0, 2.00, 2, 3, '1st', 0),
+(49, 'ITL312-18', 'Inforrmation Assurance and Security 1 (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:07:32', '2025-05-10 16:39:29', 0, 1, 1.00, 3, 3, '1st', 0),
+(50, 'CIT313-18', 'System Integration and Architecture 2 (Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:07:32', '2025-05-12 20:14:00', 2, 0, 2.00, 2, 3, '1st', 0),
+(51, 'ITL313-18', 'System Integration and Architecture 2 (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:07:32', '2025-05-10 16:39:39', 0, 1, 1.00, 3, 3, '1st', 0),
+(52, 'CIT314-18', 'Systems Analysis and Design (Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:16:27', '2025-05-12 20:14:04', 2, 0, 2.00, 2, 3, '1st', 0),
+(53, 'ITL314-18', 'Systems Analysis and Design (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-10 16:39:50', 0, 1, 1.00, 3, 3, '1st', 0),
+(54, 'CITEL3-18', 'IT Elective 3 (Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-12 20:14:08', 2, 0, 2.00, 2, 3, '1st', 0),
+(55, 'ITLEL3-18', 'IT Elective 3 (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-10 16:40:03', 0, 1, 1.00, 3, 3, '1st', 0),
+(56, 'CITFE1-18', 'Free Elective 1', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-10 16:40:08', 3, 0, 3.00, 3, 3, '1st', 0),
+(57, 'CIT321-18', 'Capstone Project 1', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-10 16:40:16', 3, 0, 3.00, 3, 3, '2nd', 0),
+(58, 'CIT322-18', 'Integrative Programming and Technologies (Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-12 20:14:20', 2, 0, 2.00, 2, 3, '2nd', 0),
+(59, 'ITL322-18', 'Integrative Programming and Technologies (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-10 16:40:23', 0, 1, 1.00, 3, 3, '2nd', 0),
+(60, 'CIT323-18', 'Information Assurance and Security 2 (Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-12 20:14:26', 2, 0, 2.00, 2, 3, '2nd', 0),
+(61, 'ITL323-18', 'Information Assurance and Security 2 (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-10 16:40:29', 0, 1, 1.00, 3, 3, '2nd', 0),
+(62, 'CIT324-18', 'Network Management (Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-12 20:14:30', 2, 0, 2.00, 2, 3, '2nd', 0),
+(64, 'ITL324-18', 'Network Management (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-10 16:40:45', 0, 1, 1.00, 3, 3, '2nd', 0),
+(65, 'CIT325-18', 'Multimedia Systems (Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-12 20:14:34', 2, 0, 2.00, 2, 3, '2nd', 0),
+(66, 'ITL325-18', 'Multimedia Systems (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-10 16:40:56', 0, 1, 1.00, 3, 3, '2nd', 0),
+(67, 'CITEL4-18', 'IT Elective 4 (Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-12 20:14:38', 2, 0, 2.00, 2, 3, '2nd', 0),
+(68, 'ITLEL4-18', 'IT Elective 4 (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:17:52', '2025-05-10 16:41:02', 0, 1, 1.00, 3, 3, '2nd', 0),
+(69, 'CIT411-18', 'Capstone 2', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:51:50', '2025-05-10 16:41:39', 3, 0, 3.00, 3, 4, '1st', 0),
+(70, 'CIT412-18', 'On-The-Job Training 1 (200hrs)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:51:50', '2025-05-10 16:41:33', 3, 0, 3.00, 3, 4, '1st', 0),
+(71, 'CITEL5-18', 'IT Elective 5 (Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:51:50', '2025-05-12 20:14:51', 2, 0, 2.00, 2, 4, '1st', 0),
+(72, 'ITLEL5-18', 'IT Elective 5 (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:51:50', '2025-05-10 16:41:59', 0, 1, 1.00, 3, 4, '1st', 0),
+(73, 'CITFE2-18', 'Free Elective 2', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:51:50', '2025-05-10 16:42:05', 3, 0, 3.00, 3, 4, '1st', 0),
+(74, 'CIT421-18', 'On-The-Job Training 2 (300hrs)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:51:50', '2025-05-10 16:42:12', 6, 0, 6.00, 6, 4, '2nd', 0),
+(75, 'CITEL6-18', 'IT Elective 6 (Lec)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:51:50', '2025-05-12 20:14:55', 2, 0, 2.00, 2, 4, '2nd', 0),
+(76, 'ITLEL6-18', 'IT Elective 6 (Lab)', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:51:50', '2025-05-10 16:42:20', 0, 1, 1.00, 3, 4, '2nd', 0),
+(77, 'CITFE3-18', 'Free Elective 3', 6, 'CICS', 18, '', 'active', 0, '2025-05-05 19:51:50', '2025-05-10 16:42:26', 3, 0, 3.00, 3, 4, '2nd', 0);
 
 -- --------------------------------------------------------
 
@@ -1026,7 +1060,7 @@ ALTER TABLE `faculty`
 -- AUTO_INCREMENT for table `faculty_load`
 --
 ALTER TABLE `faculty_load`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `majors`
@@ -1038,7 +1072,7 @@ ALTER TABLE `majors`
 -- AUTO_INCREMENT for table `programs`
 --
 ALTER TABLE `programs`
-  MODIFY `program_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `program_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -1086,13 +1120,13 @@ ALTER TABLE `student_classifications`
 -- AUTO_INCREMENT for table `student_course`
 --
 ALTER TABLE `student_course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `substitution_schedule`

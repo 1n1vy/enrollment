@@ -351,6 +351,7 @@ if (!isset($_SESSION['username'])) {
                                             'data-room': item.room_number,
                                             'data-day': item.schedule_day,
                                             'data-time': item.schedule_time,
+                                            'data-program_id': item.program_id,
                                             'data-sy': item.schoolzear
                                         })
                                     );
@@ -374,7 +375,8 @@ if (!isset($_SESSION['username'])) {
                         const room = selected.data('room');
                         const day = selected.data('day');
                         const sy = selected.data('sy');
-                        const timeRange = selected.data('time'); 
+                        const timeRange = selected.data('time');
+                        alert('Selected Program: ' + selected.data('program_id'));
                         console.log(timeRange);
                         console.log(sy);
                         

@@ -220,7 +220,8 @@ if ($stmt = $conn->prepare($query)) {
                                 if ($row['student_id'] == $studentData['id']) {
                                     echo '<td class="text-center enrolled" data-day="'.$day.'" data-time="'.$time.'">ENROLLED</td>';
                                 } else {
-                                    echo '<td class="text-center"><input type="checkbox" name="select_subject[]" value="' . $row['program_id'] . '" data-day="'.$day.'" data-time="'.$time.'" onclick="checkScheduleConflict(this, ' . $row['units'] . ')"></td>';
+                                    // echo '<td class="text-center"><input type="checkbox" name="select_subject[]" value="' . $row['program_id'] . '" data-day="'.$day.'" data-time="'.$time.'" onclick="checkScheduleConflict(this, ' . $row['units'] . ')"></td>';
+                                    echo '<td class="text-center"><input type="checkbox" name="select_subject[]" value="' . $row['program_id'] . '" data-day="' . $day . '" data-time="' . $time . '" onclick="checkScheduleConflict(this, ' . $row['units'] . ')"></td>';
                                 }
                                 echo '</tr>';
                             }
@@ -247,31 +248,59 @@ if ($stmt = $conn->prepare($query)) {
     </div>
     <div class="border-b-4 border-black my-4"></div>
     <script>
+        
 function checkScheduleConflict(checkbox, units) {
     const selectedDay = checkbox.getAttribute('data-day');
     const selectedTime = checkbox.getAttribute('data-time');
+    const selectedSubjectCode = checkbox.closest('tr').querySelector('td:nth-child(3)').innerText.trim();
+    const selectedSubjectName = checkbox.closest('tr').querySelector('td:nth-child(4)').innerText.trim();
 
     const enrolledSubjects = document.querySelectorAll('.enrolled');
+    const selectedCheckboxes = document.querySelectorAll('input[name="select_subject[]"]:checked');
 
     for (let i = 0; i < enrolledSubjects.length; i++) {
+        const enrolledRow = enrolledSubjects[i].closest('tr');
         const enrolledDay = enrolledSubjects[i].getAttribute('data-day');
         const enrolledTime = enrolledSubjects[i].getAttribute('data-time');
+        const enrolledSubjectCode = enrolledRow.querySelector('td:nth-child(3)').innerText.trim();
+        const enrolledSubjectName = enrolledRow.querySelector('td:nth-child(4)').innerText.trim();
 
-        if (selectedDay === enrolledDay && selectedTime === enrolledTime) {
-            alert('Schedule conflict with enrolled subject!');
+        if (
+            selectedDay === enrolledDay && selectedTime === enrolledTime ||
+            selectedSubjectCode === enrolledSubjectCode ||
+            selectedSubjectName === enrolledSubjectName
+        ) {
+            alert('Conflict detected with an enrolled subject!');
             checkbox.checked = false;
             return;
         }
     }
 
-    // Optionally update student load
+    for (let i = 0; i < selectedCheckboxes.length; i++) {
+        const selectedRow = selectedCheckboxes[i].closest('tr');
+        const selectedCode = selectedRow.querySelector('td:nth-child(3)').innerText.trim();
+        const selectedName = selectedRow.querySelector('td:nth-child(4)').innerText.trim();
+        const selectedDayConflict = selectedCheckboxes[i].getAttribute('data-day');
+        const selectedTimeConflict = selectedCheckboxes[i].getAttribute('data-time');
+
+        if (
+            checkbox !== selectedCheckboxes[i] &&
+            (selectedDay === selectedDayConflict && selectedTime === selectedTimeConflict ||
+            selectedSubjectCode === selectedCode ||
+            selectedSubjectName === selectedName)
+        ) {
+            alert('Conflict with another selected subject!');
+            checkbox.checked = false;
+            return;
+        }
+    }
+
     updateStudentLoad(checkbox, units);
 }
 </script>
     <script>
     let totalLoad = <?php echo $studentData['total_units'] ?>;
         function updateStudentLoad(checkbox, units) {
-        // Determine the maximum units based on the year level
         const maxUnits = document.getElementById('max-units').innerText === '23.00' ? 23.00 : 18.00;
 
         if (checkbox.checked && totalLoad + parseFloat(units) > maxUnits) {

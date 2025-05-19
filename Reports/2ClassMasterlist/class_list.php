@@ -45,19 +45,19 @@ $courseResult = $stmt->get_result();
 $courseName = $courseResult->fetch_assoc()['course_name'] ?? '';
 
 
-$testq = "SELECT * FROM sections WHERE section_id = ?";
+$testq = "SELECT * FROM programs WHERE program_id = ?";
 $stmt = $conn->prepare($testq);
 $stmt->bind_param("i", $section);
 $stmt->execute();
 $courseResult2 = $stmt->get_result();
-$sectionName = $courseResult2->fetch_assoc()['section_name'] ?? '';
+$sectionName = $courseResult2->fetch_assoc()['section'] ?? '';
 
 $stmt = $conn->prepare("
-    SELECT s.student_number,s.first_name, s.last_name, s.middle_name, s.suffix
+    SELECT s.student_number,s.first_name, s.last_name, s.middle_name, s.suffix, p.section
     FROM student_course sc
     INNER JOIN students s ON s.id = sc.student_id
     INNER JOIN programs p ON sc.program_id = p.program_id
-    WHERE p.section_id = ? 
+    WHERE p.program_id = ? 
 ");
 $stmt->bind_param("i", $section);
 $stmt->execute();

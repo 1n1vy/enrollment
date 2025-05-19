@@ -65,6 +65,7 @@ function fetchDepartments(id) {
                 var selectedOption = $(this).find('option:selected');
                 var departmentId = selectedOption.data('dept-id');
                 $('#progDept').val(departmentId);
+                $('#subject_autocomp').val('');
             });
             
 
@@ -88,7 +89,9 @@ function fetchDepartments(id) {
                             if (courseData.length > 0) {
                                 courseData.forEach(function (prog) {
                                     courseSelect.append(
-                                        `<option value="${prog.id}">${prog.level_name}</option>`
+                                        `<option value="${prog.id}" ${prog.level_name === 'Baccalaureate' ? 'selected' : ''}>
+                                            ${prog.level_name}
+                                        </option>`
                                     );
                                 });
                             } else {
@@ -159,6 +162,7 @@ function fetchDepartments(id) {
             var searchText = request.term;
             var term = $('#progTerm').val();
             var course = $('#progCourses').val();
+            // var curr = $('#progCurr').val();
         
             $.ajax({
                 url: '../programAPI.php',
@@ -167,7 +171,8 @@ function fetchDepartments(id) {
                     action: 'getSubjects',
                     search: searchText,
                     term: term,
-                    course: course
+                    course: course,
+                    // curr: curr,
                 },
                 success: function(data) {
                     console.log('API Response:', data);
@@ -199,7 +204,8 @@ function fetchDepartments(id) {
             if (subjectMap[selected]) {
                 var year = subjectMap[selected].year_level || '';
                 var subjectId = subjectMap[selected].id || '';
-                var lecUnit = subjectMap[selected].lec_units; 
+                var lecUnit = subjectMap[selected].lec_units == 0 ? subjectMap[selected].lab_units : subjectMap[selected].lec_units;
+                var hrs = subjectMap[selected].hours; 
                 console.log('lec_unit:', lecUnit);
         
                 var component = lecUnit && !isNaN(Number(lecUnit)) && Number(lecUnit) > 0 ? 'LEC' : 'LAB';
@@ -208,6 +214,23 @@ function fetchDepartments(id) {
                 $('#progYear').val(year);
                 $('#progSubjectid').val(subjectId);
                 $('#subjectCompo').val(component);
+                $('#subjectUnits').html(lecUnit+".00");
+                $('#subjectHours').html(hrs+":00");
+                
+                // Add event listener for time_input1 changes
+                $('#time_input1').on('change', function() {
+                    var startTime = $(this).val();
+                    if (startTime) {
+                        var [hours, minutes] = startTime.split(':');
+                        var endTime = new Date();
+                        endTime.setHours(parseInt(hours) + parseInt(hrs));
+                        endTime.setMinutes(parseInt(minutes));
+                        $('#time_input2').val(endTime.getHours().toString().padStart(2, '0') + ':' + 
+                                            endTime.getMinutes().toString().padStart(2, '0'));
+                    }
+                });
+
+                var startTime = $('#time_input1').val();
                 $.ajax({
                     url: '../programAPI.php',
                     type: 'GET',
@@ -222,6 +245,7 @@ function fetchDepartments(id) {
                 
                         roomSelect.empty();
                         roomSelect.append('<option value="" disabled selected>Select Room</option>');
+                        roomSelect.append('<option value="" >TBA</option>');
                 
                         if (rooms.length > 0) {
                             rooms.forEach(function(room) {
@@ -280,7 +304,8 @@ function fetchDepartments(id) {
 //                     });
 
 //                     if (isProgramIdFound) {
-//                         $('#progProgram').val(programId).trigger('change');
+//                         $('#
+// ').val(programId).trigger('change');
 //                         console.log('Program set to:', programId);
 //                     } else {
 //                         console.error('No matching program_id found in #progProgram options');

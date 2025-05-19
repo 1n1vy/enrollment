@@ -47,6 +47,9 @@ switch ($action) {
     case 'getSections':
         getSections($conn);
         break;
+    case 'getSections2':
+        getSections2($conn);
+        break;
     case 'getCurriculum':
         getCurriculum($conn);
         break;
@@ -77,10 +80,123 @@ switch ($action) {
     case 'getEnrolled':
         fetchEnrolled($conn);
         break;
+    case 'getClassPrograms':
+        getClassPrograms($conn);
+        break;
+    case 'getClassPrograms2':
+        getClassPrograms2($conn);
+        break;
+    case 'getClassSchedule':
+        getClassSchedule($conn);
+        break;
+    case 'getProgramsWithoutRoom':
+        getProgramsWithoutRoom($conn);
+        break;
         
     default:
         echo json_encode(['error' => 'Invalid action.']);
         break;
+}
+
+function getProgramsWithoutRoom($conn) {
+    $acadStart = $_GET['acadStart'] ?? '';
+    $acadEnd = $_GET['acadEnd'] ?? '';
+    $sy = $acadStart . '-' . $acadEnd;
+    $term = $_GET['term'] ?? '';
+
+    $query = "SELECT sub.subject_code, sub.subject_name, p.section, c.course_name, d.department_name
+              FROM programs p
+              LEFT JOIN subjects sub ON sub.id = p.subject_id
+              LEFT JOIN departments d ON d.id = p.department_id
+              LEFT JOIN courses c ON c.id = p.course_id
+              WHERE p.school_year = ? AND p.term = ? AND p.room_id = 0";
+
+    $params = [$sy, $term];
+    $paramTypes = 'ss';
+
+    executeAndReturn($conn, $query, $paramTypes, $params);
+}
+
+function getClassSchedule($conn) {
+    $acadStart = $_GET['acadStart'] ?? '';
+    $acadEnd = $_GET['acadEnd'] ?? '';
+    $sy = $acadStart . '-' . $acadEnd;
+    $department = $_GET['department'] ?? '';
+    $course = $_GET['course'] ?? '';
+    $year = $_GET['year'] ?? '';
+    $term = $_GET['term'] ?? '';
+
+    $query = "
+        SELECT p.schedule_time, p.schedule_day, sub.subject_code, p.section
+        FROM programs p
+        LEFT JOIN subjects sub ON sub.id = p.subject_id
+        WHERE p.school_year = ? AND p.department_id = ? AND p.course_id = ? AND p.year_level = ? AND p.term = ?
+        ORDER BY schedule_time ASC
+    ";
+
+    $params = [$sy, $department, $course, $year, $term];
+    $paramTypes = 'siiis';
+
+    executeAndReturn($conn, $query, $paramTypes, $params);
+}
+
+function getClassPrograms2($conn) {
+    $acadStart = $_GET['acadStart'] ?? '';
+    $acadEnd = $_GET['acadEnd'] ?? '';
+    $sy = $acadStart . '-' . $acadEnd;
+    $department = $_GET['department'] ?? '';
+    $course = $_GET['course'] ?? '';
+    $section = $_GET['section'] ?? 'All section';
+    $term = $_GET['term'] ?? 'All Terms';
+
+    $query = "SELECT  subj.units, subj.subject_code, p.section, subj.subject_name,p.schedule_day, p.schedule_time, r.room_number, CONCAT(f.first_name, ' ', f.last_name) AS faculty_name
+            FROM programs p
+            LEFT JOIN subjects subj ON subj.id = p.subject_id
+            LEFT JOIN faculty_load fl ON fl.subject_id = p.subject_id
+            LEFT JOIN faculty f ON f.id = fl.professor_id
+            LEFT JOIN rooms r ON r.id = p.room_id
+            WHERE p.school_year =? AND p.department_id = ? AND p.course_id = ? AND p.section = ? AND p.term = ?";
+
+    $params = [$sy, $department, $course, $section, $term];
+    $paramTypes = 'siiss';
+
+    $query .= " ORDER BY subject_code ASC";
+
+    executeAndReturn($conn, $query, $paramTypes, $params);
+}
+function getClassPrograms($conn) {
+    $acadStart = $_GET['acadStart'] ?? '';
+    $acadEnd = $_GET['acadEnd'] ?? '';
+    $sy = $acadStart . '-' . $acadEnd;
+    $department = $_GET['department'] ?? '';
+    $course = $_GET['course'] ?? '';
+    $year = $_GET['year'] ?? 'All Level';
+    $term = $_GET['term'] ?? 'All Terms';
+
+    $query = "SELECT sub.subject_code, sub.subject_name, p.section, p.subject_component, p.schedule_day, p.schedule_time, r.room_number 
+              FROM programs p
+              LEFT JOIN subjects sub ON sub.id = p.subject_id
+              LEFT JOIN rooms r ON r.id = p.room_id
+              WHERE p.school_year = ? AND p.department_id = ? AND p.course_id = ?";
+
+    $params = [$sy, $department, $course];
+    $paramTypes = 'sss';
+
+    if ($year !== 'All Level') {
+        $query .= " AND p.year_level = ?";
+        $params[] = $year;
+        $paramTypes .= 's';
+    }
+    if ($term !== 'All Terms') {
+        $query .= " AND p.term = ?";
+        $params[] = $term;
+        $paramTypes .= 's';
+    }
+
+    $query .= " ORDER BY subject_code ASC";
+
+    executeAndReturn($conn, $query, $paramTypes, $params);
+
 }
 
 function fetchEnrolled($conn) {
@@ -125,14 +241,27 @@ function fetchRooms($conn) {
             programs.school_year, 
             programs.subject_id, 
             subjects.subject_name AS subject, 
-            rooms.building_code, 
-            rooms.floor, 
-            rooms.room_number, 
-            rooms.room_type
+            CASE 
+                WHEN programs.room_id = 0 THEN 'TBA'
+                ELSE rooms.building_code
+            END AS building_code,
+            CASE 
+                WHEN programs.room_id = 0 THEN 'TBA'
+                ELSE rooms.floor
+            END AS floor,
+            CASE 
+                WHEN programs.room_id = 0 THEN 'TBA'
+                ELSE rooms.room_number
+            END AS room_number,
+            CASE 
+                WHEN programs.room_id = 0 THEN 'TBA'
+                ELSE rooms.room_type
+            END AS room_type
         FROM programs
         LEFT JOIN rooms ON rooms.id = programs.room_id
-        LEFT JOIN subjects ON subjects.id = programs.subject_id;
-    ";
+        LEFT JOIN subjects ON subjects.id = programs.subject_id
+        WHERE programs.room_id = 0 OR programs.room_id IS NOT NULL
+        ";
 
     $result = $conn->query($query);
 
@@ -338,91 +467,47 @@ function insertProgram($conn) {
     $schedule_day      = strtoupper($_POST['schedulewk']);
     $time_from         = $_POST['time_input1'];
     $time_to           = $_POST['time_input2'];
-    $room              = $_POST['room'];
+    $room              = $_POST['room'] ? $_POST['room'] : 0;
     $time_from_12hr = date('h:i A', strtotime($time_from));
     $time_to_12hr = date('h:i A', strtotime($time_to));
     $schedule_time = $time_from_12hr . ' - ' . $time_to_12hr;
     $is_international  = isset($_POST['international']) ? 0 : 1;
-
-    // $check = "
-    //         SELECT * FROM programs 
-    //         WHERE room_id = ? 
-    //         AND FIND_IN_SET(?, schedule_day) > 0 
-    //         AND schedule_time = ?
-    //     ";
-
-    // if ($stmt = $conn->prepare($check)) {
-    //     $stmt->bind_param('iss', $room, $schedule_day, $schedule_time);
-    //     $stmt->execute();
-    //     $result = $stmt->get_result();
-    //     if ($result->num_rows > 0) {
-    //         echo json_encode(['status' => 'error', 'message' => 'Schedule already exists!']);
-    //         return;
-    //     } else {
-
-    //         $sql = "INSERT INTO programs (
-    //                     department_id, course_id, course_program, subject_id, major_id, curriculum_id,
-    //                     section, year_level, term, school_year, subject_type, subject_component,
-    //                     schedule_day, schedule_time, is_international, room_id
-    //                 ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    //         if ($stmt = $conn->prepare($sql)) {
-
-    //             $stmt->bind_param('iiissssssssssssi', 
-
-    //                 $department_id, 
-    //                 $course_id, 
-    //                 $course_program, 
-    //                 $subject_id, 
-    //                 $major_id, 
-    //                 $curriculum_id, 
-    //                 $section_id, 
-    //                 $year_level, 
-    //                 $term, 
-    //                 $school_year, 
-    //                 $subject_type,
-    //                 $subjectcomp,  
-    //                 $schedule_day, 
-    //                 $schedule_time, 
-    //                 $is_international,
-    //                 $room,
-
-    //             );
-                
-    //             if ($stmt->execute()) {
-    //                 echo json_encode(['status' => 'success', 'message' => 'Substitution added successfully!']);
-    //             } else {
-    //                 echo json_encode(['status' => 'error', 'message' => 'Error adding substitution.']);
-    //             }
-
-    //             $stmt->close();
-    //         } else {
-    //             echo "Error preparing the SQL statement: " . $conn->error;
-    //         }
-
-    //     }
-    // } else {
-    //     echo json_encode(['status' => 'error', 'message' => 'Error preparing the SQL statement.']);
-    //     return;
-    // }
 
     $days = explode(',', $schedule_day);
 
     foreach ($days as $day) {
         $check = "
             SELECT * FROM programs 
-            WHERE room_id = ? 
+            WHERE (room_id != 0 AND room_id = ?) 
             AND FIND_IN_SET(?, schedule_day) > 0 
-            AND schedule_time = ?
+            AND (
+                (TIME(SUBSTRING_INDEX(schedule_time, ' - ', 1)) < TIME(?) 
+                AND TIME(SUBSTRING_INDEX(schedule_time, ' - ', -1)) > TIME(?))
+                OR
+                (TIME(SUBSTRING_INDEX(schedule_time, ' - ', 1)) >= TIME(?) 
+                AND TIME(SUBSTRING_INDEX(schedule_time, ' - ', -1)) <= TIME(?))
+                OR
+                (TIME(SUBSTRING_INDEX(schedule_time, ' - ', 1)) < TIME(?) 
+                AND TIME(SUBSTRING_INDEX(schedule_time, ' - ', -1)) > TIME(?))
+            )
         ";
 
         if ($stmt = $conn->prepare($check)) {
-            $stmt->bind_param('iss', $room, $day, $schedule_time);
+            $stmt->bind_param(
+                'isssssss',
+                $room,
+                $day,
+                $time_to_12hr,
+                $time_from_12hr,
+                $time_from_12hr,
+                $time_to_12hr,
+                $time_from_12hr,
+                $time_to_12hr
+            );
             $stmt->execute();
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
-                // Conflict detected
-                ob_clean(); // Clear any previous output
+                ob_clean();
                 echo json_encode(['status' => 'error', 'message' => "Schedule conflict on day $day!"]);
                 $stmt->close();
                 return;
@@ -435,12 +520,11 @@ function insertProgram($conn) {
         }
     }
 
-    // No conflicts, proceed to insert
     $sql = "INSERT INTO programs (
         department_id, course_id, course_program, subject_id, major_id, curriculum_id,
         section, year_level, term, school_year, subject_component,
         schedule_day, schedule_time, is_international, room_id
-    ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     if ($stmt = $conn->prepare($sql)) {
         $stmt->bind_param('iiisssssssssssi', 
@@ -477,6 +561,15 @@ function insertProgram($conn) {
     
 }
 
+function getSections2($conn)
+{
+    $course_id = $_GET['course_id'] ?? 0;
+    $deptartment_id = $_GET['department_id'] ?? 0;
+
+    $query = "SELECT * FROM programs WHERE course_id = ? AND department_id = ? ORDER BY section ASC";
+
+    executeAndReturn($conn, $query, 'ii', [$course_id, $deptartment_id]);
+}
 
 
 function getSections($conn)
@@ -495,6 +588,7 @@ function getSubjects($conn) {
     $search = $_GET['search'] ?? '';
     $term = $_GET['term'] ?? '';
     $course = $_GET['course'] ?? '';
+    // $curr = $_GET['curr'] ?? '';
 
     $query = "
         SELECT *
