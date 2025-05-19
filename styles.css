@@ -1,0 +1,308 @@
+/* Header styling */
+.section-header {
+  background-color: #174069;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.section-header h1 {
+  color: white;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Form container styling */
+.form-container {
+  width: 90%;
+  max-width: 400px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  left: 0;
+  background-image: url("./images/cover.png");
+  background-position: -80px -80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 30px;
+  z-index: 1000;
+  box-shadow: 0 0 2px #ccc;
+}
+
+/* Hamburger Icon Styling */
+.hamburger-icon {
+  padding: 4px;
+  /* 4px padding */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 24px;
+  color: #fff;
+  /* Make sure it's visible on the navbar */
+}
+
+.logo_item {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.navbar img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f8fa;
+  margin: 0;
+  padding: 0;
+}
+
+/* Breadcrumb styles */
+.breadcrumb-nav {
+  margin: 0;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.breadcrumb {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.breadcrumb li {
+  margin-right: 10px;
+}
+
+.breadcrumb li a {
+  color: #174069;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.breadcrumb li a:hover {
+  color: #20568b;
+}
+
+.breadcrumb li.active {
+  color: orange;
+  pointer-events: none;
+}
+
+.breadcrumb li::after {
+  content: ">";
+  margin-left: 10px;
+  color: #174069;
+}
+
+.breadcrumb li:last-child::after {
+  content: "";
+}
+
+/* Section Header */
+.section-header {
+  background-color: #174069;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.section-header h1 {
+  color: white;
+  margin: 0;
+}
+
+/* Form styles */
+.form-container {
+  width: 80%;
+  margin: 40px auto;
+  background-color: #f4f8fc;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-group half {
+  width: 50%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.label input,
+.label select {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  /* Ensure inputs take up full width inside their containers */
+}
+
+.flex {
+  display: flex;
+  gap: 5px;
+  /* Maintain close proximity between elements */
+  flex-wrap: nowrap;
+  /* Prevent wrapping */
+  width: 100%;
+  /* Ensure the flex container is responsive */
+}
+
+.ml-1 {
+  margin-left: 0;
+  /* Remove any additional left margin */
+  flex-grow: 1;
+  /* Allow input fields to grow as needed */
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.empty-row {
+  height: 75px;
+  /* Adjust the height as needed */
+}
+
+input[readonly] {
+  background-color: #aaa7a7;
+  /* Light gray background for readonly input */
+}
+
+/* Checkboxes */
+.checkbox-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-container input {
+  margin-right: 5px;
+}
+
+/* Button styles */
+.form-actions button {
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.showsub {
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #174069;
+  /* Blue background */
+  color: white;
+  /* White text */
+  width: 150px;
+  /* Adjust button width */
+  height: 45px;
+  /* Adjust button height */
+}
+
+.showsub:hover {
+  background-color: #0056b3;
+  /* Darker blue on hover */
+}
+
+.flex-container {
+  display: flex;
+  align-items: left;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+/* Make the time inputs stack vertically */
+.form-group#time-group {
+  display: flex;
+  flex-direction: column;
+  /* Stack items vertically */
+  gap: 10px;
+  /* Space between Time From and Time To */
+}
+
+.form-group#time-group div {
+  display: flex;
+  flex-direction: column;
+  /* Ensure each label and input is stacked vertically */
+}
+
+.form-group#time-group label {
+  margin-bottom: 5px;
+}
+
+.form-group#time-group input {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-group input {
+    width: 100%;
+  }
+
+  .bottom-btns {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bottom-btn-group {
+    margin-bottom: 15px;
+  }
+}
